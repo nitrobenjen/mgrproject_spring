@@ -1,6 +1,8 @@
-			<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="false" %>
+
+
 
 			<h3>강사 계정 관리</h3>
 
@@ -19,7 +21,7 @@
 						<th>삭제</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody class="tbody">
 <!-- 					<tr>
 						<td>TCH001</td>
 						<td>지재환</td>
@@ -53,6 +55,27 @@
 						
 				</tbody>
 			</table>
+			
+			<div style="text-align: center;">
+
+							<ul class="pagination" style="margin: 0px 0px 20px 0px;">
+							<c:forEach begin="1" end="${totalpage}" varStatus="status">
+							
+							<c:choose>
+							<c:when test="${status.count==1}">
+							<li class="active"><a href="#" class="pagenum" id="${status.count}">${status.count}</a></li>
+							</c:when>
+							<c:otherwise>
+							<li><a href="#" class="pagenum" id="${status.count}">${status.count}</a></li>
+							
+							</c:otherwise>
+							
+							</c:choose>
+							
+								
+								</c:forEach>
+							</ul>
+			</div>
 
 
 			<form class="form-inline" method="post" style="text-align: center;">
@@ -303,49 +326,103 @@
 	</div>
 
 <script>
+$(document).ready(function() {
+	
+	
 
-$(".modifybtn").on("click", function(){
 	
-	var teacher_id = $(this).val();
-	var teacher_name = $(this).parents("tbody tr").children().eq(1).text();
-	var teacher_ssn = $(this).parents("tbody tr").children().eq(2).text();
-	var teacher_phone = $(this).parents("tbody tr").children().eq(3).text();						
-	$("#teacher_id").val(teacher_id);
-	$("#teacher_name").val(teacher_name);
-	$("#teacher_ssn").val(teacher_ssn);
-	$("#teacher_phone").val(teacher_phone);	
 	
-	var txt="";
-	$.ajax({
+	$(document).on("click",".modifybtn", function(){
 		
-		url :"adminteachsublist",
-		data : {"teacher_id":teacher_id},
-		success : function(data){
-			var item = JSON.parse(data);
-			for(var i=0; i<item.length; i++){
-				txt += "<label><input type='checkbox' name='sub' "+item[i].check2+"  "+item[i].check+" value='"+item[i].subject_id+"'>"+item[i].subject_name+"</label><br>";
-			} 
+		var teacher_id = $(this).val();
+		var teacher_name = $(this).parents("tbody tr").children().eq(1).text();
+		var teacher_ssn = $(this).parents("tbody tr").children().eq(2).text();
+		var teacher_phone = $(this).parents("tbody tr").children().eq(3).text();						
+		$("#teacher_id").val(teacher_id);
+		$("#teacher_name").val(teacher_name);
+		$("#teacher_ssn").val(teacher_ssn);
+		$("#teacher_phone").val(teacher_phone);	
+		
+		var txt="";
+		$.ajax({
 			
-			$(".modifycheckbox").html(txt);
-		}
+			url :"adminteachsublist",
+			data : {"teacher_id":teacher_id},
+			success : function(data){
+				var item = JSON.parse(data);
+				for(var i=0; i<item.length; i++){
+					txt += "<label><input type='checkbox' name='sub' "+item[i].check2+"  "+item[i].check+" value='"+item[i].subject_id+"'>"+item[i].subject_name+"</label><br>";
+				
+				} 
+				
+				$(".modifycheckbox").html(txt);
+				$("#t-mod-Modal").modal("show");
+				
+
+			}});
 	});
 	
-	$("#t-mod-Modal").modal("show");
+	console.log("${code}");
 	
-});
-
-$(".delbtn").on("click", function(){
+	if("${code}"==100){
+		 swal({
+			    type: 'success',
+			    title: '수정 성공'
+			  });
+	}
 	
-	$("#t-del-Modal").modal("show");
+	if("${code}"==200){
+		 swal({
+			    type: 'error',
+			    title: '수정 실패'
+			  });
+	}
+
+
+	$(".delbtn").on("click", function(){
+		
+		$("#t-del-Modal").modal("show");
+		
+	});
+
+	$(".subcountbtn").on("click", function(){
+		$("#tlist-Modal").modal("show");
+	});
+
+	$(".addbtn").on("click", function(){
+		$("#t-insert-Modal").modal("show");
+	});
 	
-});
 
-$(".subcountbtn").on("click", function(){
-	$("#tlist-Modal").modal("show");
-});
+	$(document).on("click",".pagenum", function(){
+		$(this).parents().find("li").removeClass("active");		
+		var txt="";
+		var currentpage = $(this).text();
+		$(this).parent().addClass("active");
+		console.log($(this).parents());
+		$.ajax({
+			url:"adminteachpage",
+			data:{"currentpage2":currentpage},
+			success:function(data){
+				var item = JSON.parse(data);
+				for(var i=0; i<item.length; i++){
+					txt += "<tr>";
+					txt += "<td>"+item[i].teacher_id+"</td>";
+					txt += "<td>"+item[i].teacher_name+"</td>";
+					txt += "<td>"+item[i].teacher_ssn+"</td>";
+					txt += "<td>"+item[i].teacher_phone+"</td>";
+					txt += "<td>"+item[i].teacher_hiredate+"</td>";
+					txt += "<td><button type=\"button\" class=\"btn btn-default btn-sm subcountbtn\"  value=\""+item[i].teacher_id+"\"> <span class=\"badge\" id=\"Count\" >"+item[i].count_+"</span> 보기 </button></td>"
+					txt += "<td><button type=\"button\" class=\"btn btn-default modifybtn\" value=\""+item[i].teacher_id+"\">수정</button></td>";
+					txt += "<td><button type=\"button\" class=\"btn btn-default delbtn\"  value=\""+item[i].teacher_id+"\">삭제</button></td>";
+					txt += "</tr>";	
+				} 
+						
+			$(".tbody").html(txt);
+			}});
+		
+	});
 
-$(".addbtn").on("click", function(){
-	$("#t-insert-Modal").modal("show");
 });
 
 

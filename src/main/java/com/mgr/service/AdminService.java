@@ -7,7 +7,7 @@ import com.mgr.dto.AdminTeachVO;
 public interface AdminService {
 	
 	// 강사 전체 목록
-	public List<AdminTeachVO> adminTeachListAll();
+	public List<AdminTeachVO> adminTeachListAll(String currentpage2);
 
 	// 강사 강의가능한 과목 출력
 	public List<AdminTeachVO> adminTeachSublist(String teacher_id);

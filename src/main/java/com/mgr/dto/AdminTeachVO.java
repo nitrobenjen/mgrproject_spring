@@ -7,7 +7,7 @@ public class AdminTeachVO {
 	private String teacher_id, teacher_name, teacher_ssn, teacher_phone, teacher_hiredate, subject_id, check, check2, subcheck,
 			subject_name;
 
-	private int count_;
+	private int count_, totalrow;
 	
 	private String[] sub;
 	
@@ -17,6 +17,14 @@ public class AdminTeachVO {
 	
 	
 	
+	public int getTotalrow() {
+		return totalrow;
+	}
+
+	public void setTotalrow(int totalrow) {
+		this.totalrow = totalrow;
+	}
+
 	public String[] getSub() {
 		return sub;
 	}
@@ -32,6 +40,12 @@ public class AdminTeachVO {
 	public void setCheck2(String check2) {
 		this.check2 = check2;
 	}
+
+	public String name() {
+		return teacher_id;
+	}
+	
+	
 
 	public String getTeacher_id() {
 		return teacher_id;

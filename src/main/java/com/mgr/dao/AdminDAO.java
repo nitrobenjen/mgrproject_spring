@@ -25,5 +25,7 @@ public interface AdminDAO {
 	
 	//강의가능한목록 삽입
 	public int adminTeachsubInsert(AdminTeachVO t);
+	
+	
 
 }

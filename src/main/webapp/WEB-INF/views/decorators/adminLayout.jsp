@@ -22,6 +22,11 @@
 <!-- jQuery UI 사용 환경 설정 -->
 <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
+<!-- sweetalert2 CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.css">
+
+
 
 <style>
 </style>

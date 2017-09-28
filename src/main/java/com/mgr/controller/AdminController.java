@@ -58,16 +58,27 @@ public class AdminController {
 	}
 
 	
-	///////////////////////////////////
+	//////////////////관리자 강사 진행중/////////////////////////////
 	
-	@RequestMapping(value = "/admin201", method = RequestMethod.GET, produces="text/plain;charset=UTF-8")
-	public ModelAndView admin201() {
+	@RequestMapping(value = "/admin201", produces="text/plain;charset=UTF-8")
+	public ModelAndView admin201(String currentpage2) {
 		ModelAndView mav = new ModelAndView("/admin/admin201");
-		mav.addObject("teacherlist", service.adminTeachListAll());
+		mav.addObject("teacherlist", service.adminTeachListAll(currentpage2));
+		mav.addObject("totalpage", service.adminTeachListAll(currentpage2).get(0).getTotalrow());
 
 		return mav;
 	}
 	
+	@RequestMapping(value = "/adminteachpage", produces="text/plain;charset=UTF-8")
+	public String adminteachpage(String currentpage2) {
+		Gson gson = new Gson();	
+		List<AdminTeachVO> result = service.adminTeachListAll(currentpage2);
+
+		return gson.toJson(result);
+	}
+	
+	
+	//수정 시 강의가능과목 목록 출력 용.
 	@RequestMapping(value = "/adminteachsublist", produces="text/plain;charset=UTF-8")
 	public String adminteachsublist(HttpServletResponse response, String teacher_id) throws IOException {
 		Gson gson = new Gson();	
@@ -76,6 +87,8 @@ public class AdminController {
 		return gson.toJson(result);
 	}
 	
+	
+	//강사 정보 수정(트랜잭션)
 	@RequestMapping(value = "/adminteachmodify", produces="text/plain;charset=UTF-8")
 	public ModelAndView adminteachmodify(HttpServletResponse response, AdminTeachVO t, RedirectAttributes redirectAttr ) throws IOException {		
 		int code = service.adminTeachModifyinfo(t);
@@ -86,7 +99,7 @@ public class AdminController {
 	}
 	
 	
-	//////////////////////////////
+	///////////////////////////////////////////////////////////////
 
 	@RequestMapping(value = "/admin301", method = RequestMethod.GET)
 	public ModelAndView admin301(Locale locale, Model model) {
