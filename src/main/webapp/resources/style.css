@@ -1,0 +1,104 @@
+@charset "utf-8";
+
+
+body  {
+overflow-y:scroll;
+}
+
+
+div.panel {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0
+		rgba(0, 0, 0, 0.19);
+}
+
+
+div#main{ margin:50px 0px; width:100%; }
+
+div#menu{ width:100%; background-color:#000; }
+
+div.title {
+	max-width: 1200px;
+	margin:auto;
+}
+
+div.login {
+	display: inline-block;
+	margin-top: 20px;
+	float: right;
+}
+
+div.menu {
+	max-width: 1200px;
+	margin:auto;
+	margin-top: 20px;
+	color:#fff;
+}
+
+div.menu>ul.nav-pills>li>a {
+	color:#fff;
+    border-radius:0px;
+    padding:13px 15px;
+}
+
+div.menu>.nav>li>a:focus, .nav>li>a:hover{
+	background-color:#337ab7;
+	color:#fff;
+}
+
+div.menu>.nav .open>a, .nav .open>a:focus, .nav .open>a:hover{
+	background-color:#337ab7;
+	color:#fff;
+}
+
+div.menu>.nav>li>.dropdown-menu>li>a {
+	line-height:30px;
+}
+
+div.content {
+	max-width: 1200px;
+	margin:30px auto;
+	padding:20px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0
+		rgba(0, 0, 0, 0.19);
+}
+
+table { background-color:#fff; }
+
+table.ocu>tbody>tr>td {
+	vertical-align: middle;
+}
+
+table.ocu>thead>tr>th {
+	vertical-align: middle;
+	text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+	.modal:before {
+		display: inline-block;
+		vertical-align: middle;
+		content: " ";
+		height: 100%;
+	}
+}
+
+.modal {
+	text-align: center;
+}
+
+.modal-dialog {
+	display: inline-block;
+	text-align: left;
+	vertical-align: middle;
+}
+
+.modal-footer {
+	text-align: center;
+}
+
+.modal-header {
+    background-color: #337ab7;
+    color: #fff;
+}
+
+.m10 { margin-top: 10px; }

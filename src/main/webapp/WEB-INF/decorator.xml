@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- default directory 설정 -->
+<decorators defaultdir="/WEB-INF/views/decorators">
+	<!-- admin -->
+	<decorator name="adminLayout" page="adminLayout.jsp">
+		<pattern>/admi*</pattern>
+	</decorator>
+	<!-- teacher -->
+	<decorator name="teachLayout" page="teachLayout.jsp">
+		<pattern>/teac*</pattern>
+	</decorator>
+	
+	<!-- student -->
+	<decorator name="stuLayout" page="stuLayout.jsp">
+		<pattern>/stu</pattern>
+	</decorator>
+	
+	<!-- decorators를 적용시키지 않을 url 패턴 -->
+	<excludes>
+		<pattern>/excludes/*</pattern>
+	</excludes>
+</decorators>

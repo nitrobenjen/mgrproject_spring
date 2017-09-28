@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.management.mapper.AdminMapper">
+
+	<resultMap type="com.mgr.dto.AdminTeachVO" id="AdminTeachResultMap">
+		<result property="teacher_id" column="teacher_id" />
+		<result property="teacher_name" column="teacher_name" />
+		<result property="teacher_ssn" column="teacher_ssn" />
+		<result property="teacher_phone" column="teacher_phone" />
+		<result property="teacher_hiredate" column="teacher_hiredate" />
+		<result property="count_" column="count_" />
+		<result property="check" column="check" />
+		<result property="subcheck" column="subcheck" />
+		<result property="subject_id" column="subject_id" />
+		<result property="subject_name" column="subject_name" />
+	</resultMap>
+
+
+
+
+	<select id="adminTeachListAll" resultMap="AdminTeachResultMap">
+		SELECT teacher_id,
+		teacher_name, teacher_ssn, teacher_phone,
+		TO_CHAR(teacher_hiredate,
+		'YYYY-MM-DD') AS teacher_hiredate, (SELECT
+		COUNT(*) FROM teach_sub
+		WHERE teacher_id = o1.teacher_id) AS count_
+		FROM teacher o1 ORDER BY
+		teacher_id
+	</select>
+
+
+	<select id="adminBasicSubList" resultMap="AdminTeachResultMap">
+		SELECT subject_id, subject_name FROM subject ORDER BY subject_id
+	</select>
+
+
+	<select id="adminTeachSublist" resultMap="AdminTeachResultMap"
+		parameterType="String">
+		SELECT o1.teacher_id, teacher_name, teacher_phone,
+		o2.subject_id, subject_name
+		FROM teacher o1 LEFT OUTER JOIN teach_sub
+		o2 ON o1.TEACHER_ID = o2.TEACHER_ID
+		LEFT OUTER JOIN subject o3 ON
+		o2.SUBJECT_ID = o3.SUBJECT_ID WHERE o1.teacher_id = #{teacher_id}
+		ORDER BY o1.teacher_id
+	</select>
+
+	<select id="adminTeachNocheck" resultMap="AdminTeachResultMap"
+		parameterType="String">
+		SELECT o3.subject_id FROM teacher o1		
+		INNER JOIN teach_sub o2 ON o1.teacher_id = o2.teacher_id
+		INNER JOIN subject o3 ON o2.subject_id = o3.subject_id
+		INNER JOIN open_sub o4 ON o1.teacher_id = o4.teacher_id AND o3.SUBJECT_ID = o4.SUBJECT_ID
+		WHERE o1.teacher_id = #{teacher_id}
+		GROUP BY o3.subject_id
+	</select>
+
+	<delete id="adminTeachDelsub" parameterType="String">
+		DELETE FROM teach_sub WHERE teacher_id=#{teacher_id}
+		AND subject_id IN(SELECT o2.subject_id FROM teacher o1
+		LEFT OUTER JOIN
+		teach_sub o2 ON o1.TEACHER_ID = o2.TEACHER_ID
+		LEFT OUTER JOIN subject
+		o3 ON o2.SUBJECT_ID = o3.SUBJECT_ID
+		LEFT OUTER JOIN open_sub o4 ON
+		o1.TEACHER_ID = o4.TEACHER_ID AND o4.SUBJECT_ID = o3.SUBJECT_ID
+		WHERE
+		o1.TEACHER_ID = #{teacher_id} AND o4.subject_id NOT IN
+		(SELECT
+		subject_id FROM open_sub WHERE subject_id = o4.subject_id))
+	</delete>
+	
+	
+	<insert id="adminTeachsubInsert" parameterType="com.mgr.dto.AdminTeachVO">
+		INSERT INTO teach_sub (teacher_id, subject_id) VALUES (#{teacher_id}, #{subject_id})
+	</insert>
+	
+
+	<update id="adminTeachModifyinfo" parameterType="com.mgr.dto.AdminTeachVO">
+		UPDATE teacher SET teacher_name=#{teacher_name},
+		teacher_ssn=#{teacher_ssn},
+		teacher_phone=#{teacher_phone} WHERE teacher_id=#{teacher_id}
+	</update>
+
+
+</mapper>
