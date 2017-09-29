@@ -33,6 +33,20 @@
 
 <script>
 	$(document).ready(function() {
+		
+		if("${code}"==100){
+			 swal({
+				    type: 'success',
+				    title: '성공'
+				  });
+		}
+		
+		if("${code}"==200){
+			 swal({
+				    type: 'error',
+				    title: '실패'
+				  });
+		}
 	
 
 	});

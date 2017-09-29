@@ -37,7 +37,7 @@
 								data-toggle="modal" data-target="#t-del-Modal">삭제</button></td>
 					</tr> -->
 					
-					<c:forEach var="a" items="${teacherlist}">
+				 	<c:forEach var="a" items="${teacherlist}">
 					<tr>
 						<td>${a.teacher_id}</td>
 						<td>${a.teacher_name}</td>
@@ -48,7 +48,7 @@
 								<span class="badge" id="Count" >${a.count_}</span> 보기
 							</button></td>
 						<td><button type="button" class="btn btn-default modifybtn" value="${a.teacher_id}">수정</button></td>
-						<td><button type="button" class="btn btn-default delbtn" ${teacherdelcheck[a.teacher_id]} value="${a.teacher_id}">삭제</button></td>
+						<td><button type="button" class="btn btn-default delbtn" ${a.check} value="${a.teacher_id}">삭제</button></td>
 					</tr>
 							
 					</c:forEach>
@@ -78,21 +78,20 @@
 			</div>
 
 
-			<form class="form-inline" method="post" style="text-align: center;">
+			<form class="form-inline" style="text-align: center;">
 				<button type="button" style="float: left;" class="btn btn-default addbtn">등록</button>
 				<div class="form-group">
 					<select class="form-control" id="key" name="key">
-						<option value="name">Name</option>
-						<option value="phone">Phone</option>
-						<option value="email">Email</option>
-						<option value="regDate">RegDate</option>
+						<option value="teacher_id">강사ID</option>
+						<option value="teacher_name">강사명</option>
+						<option value="teacher_phone">강사전화번호</option>
 					</select>
 				</div>
 				<div class="form-group">
 					<input type="text" class="form-control" id="value" name="value"
 						required>
 				</div>
-				<button type="submit" class="btn btn-default">Search</button>
+				<button type="button" class="btn btn-default searchbtn">Search</button>
 			</form>
 
 
@@ -109,9 +108,9 @@
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h5 class="modal-title">강의 가능 과목</h5>
 				</div>
-				<div class="modal-body">
+				<div class="modal-body ">
 				
-					<h4 style="text-align:center;">TCH001 지재환 / 010-8888-7474</h4>
+					<h4 style="text-align:center;" class="countbody">TCH001 지재환 / 010-8888-7474</h4>
 
 					<hr>
 					
@@ -122,27 +121,12 @@
 						<th>과목명</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody class="teachsub">
 					<tr>
 						<td>SUB001</td>
 						<td>자바 네트워트 프로그래밍</td>
 					</tr>
-					<tr>
-						<td>SUB002</td>
-						<td>자바 웹 프로그래밍</td>
-					</tr>
-					<tr>
-						<td>SUB003</td>
-						<td>JDBC 프로그래밍</td>
-					</tr>
-					<tr>
-						<td>SUB004</td>
-						<td>HTML5/CSS3/JavaScript</td>
-					</tr>
-					<tr>
-						<td>SUB005</td>
-						<td>jQuery & Ajax</td>
-					</tr>					
+					
 				</tbody>
 			</table>
 				
@@ -168,64 +152,31 @@
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h5 class="modal-title">강사 계정 등록</h5>
 				</div>
-				<form class="form-horizontal">
+				<form class="form-horizontal" action="adminteachadd" method="POST">
 				<div class="modal-body">
 				
 					
 						<div class="form-group">
 							<label class="control-label col-sm-3 m10">이름</label>
 							<div class="col-sm-9 m10">
-								<input class="form-control" id="focusedInput" type="text">
+								<input class="form-control" name="teacher_name" type="text">
 							</div>
 							<label class="control-label col-sm-3 m10">전화번호</label>
 							<div class="col-sm-9 m10">
-								<input class="form-control" id="focusedInput" type="text">
+								<input class="form-control" name="teacher_phone" type="text">
 							</div>
 							<label class="control-label col-sm-3 m10">주민번호</label>
 							<div class="col-sm-9 m10">
-								<input class="form-control" id="focusedInput" type="text">
+								<input class="form-control" name="teacher_ssn" type="text">
 							</div>
 							<label class="control-label col-sm-3 m10">강의 가능 과목</label>
 							<div class="col-sm-9 m10">
-								<div class="checkbox">
-								<label><input type="checkbox" value="SUB001">자바 네트워트 프로그래밍</label>
-								</div>
-								<div class="checkbox">
-								<label><input type="checkbox" value="SUB002">자바 웹 프로그래밍</label>
-								</div>
-								<div class="checkbox">
-								<label><input type="checkbox" value="SUB003">JDBC 프로그래밍</label>
-								</div>
-								<div class="checkbox">
-								<label><input type="checkbox" value="SUB004">HTML5/CSS3/JavaScript</label>
-								</div>
-								<div class="checkbox">
-								<label><input type="checkbox" value="SUB005">jQuery & Ajax</label>
-								</div>
-								<div class="checkbox">
-								<label><input type="checkbox" value="SUB006">UI디자인</label>
-								</div>
-								<div class="checkbox">
-								<label><input type="checkbox" value="SUB007">UI/UX가이드 제작</label>
-								</div>
-								<div class="checkbox">
-								<label><input type="checkbox" value="SUB008">플랫폼별 UI디자인</label>
-								</div>
-								<div class="checkbox">
-								<label><input type="checkbox" value="SUB009">Framework</label>
-								</div>
-								<div class="checkbox">
-								<label><input type="checkbox" value="SUB010">Oracle DBMS</label>
-								</div>
-								<div class="checkbox">
-								<label><input type="checkbox" value="SUB011">Front-end 개발</label>
-								</div>
-								<div class="checkbox">
-								<label><input type="checkbox" value="SUB012">빅데이터 분석 및 시각화</label>
-								</div>
-								<div class="checkbox">
-								<label><input type="checkbox" value="SUB013">실무 프로젝트 통합구현</label>
-								</div>
+								<div class="checkbox addcheckbox">
+								<!-- <label><input type="checkbox" value="SUB001">자바 네트워트 프로그래밍</label> -->
+								
+								
+								
+								</div>							
 							</div>
 						</div>
 					
@@ -308,18 +259,21 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h5 class="modal-title">TCH001 강사 삭제</h5>
+					<h5 class="modal-title deltitle">TCH001 강사 삭제</h5>
 				</div>
 				<div class="modal-body">
 
-					<h4 style="text-align:center;font-weight:bold;">지재환 / 010-8888-7474</h4>
+					<h4 style="text-align:center;font-weight:bold;" class="delbody">지재환 / 010-8888-7474</h4>
 					
 					<h4 style="text-align:center;">강사를 삭제하시겠습니까?</h4>
 				</div>
+				<form class="form-horizontal" method="POST" action="adminteachdel">
+				<input type="hidden" name="teacher_id" class="delinput">
 				<div class="modal-footer">
 					<button type="submit" class="btn btn-default">삭제</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 				</div>
+				</form>
 			</div>
 
 		</div>
@@ -327,7 +281,8 @@
 
 <script>
 $(document).ready(function() {
-	
+	var key= "";
+	var value = "";
 	
 
 	
@@ -362,49 +317,142 @@ $(document).ready(function() {
 			}});
 	});
 	
-	console.log("${code}");
 	
-	if("${code}"==100){
-		 swal({
-			    type: 'success',
-			    title: '수정 성공'
-			  });
-	}
-	
-	if("${code}"==200){
-		 swal({
-			    type: 'error',
-			    title: '수정 실패'
-			  });
-	}
 
 
-	$(".delbtn").on("click", function(){
+
+	$(document).on("click",".delbtn", function(){
+		
+		var teacher_id = $(this).val();
+		var teacher_name = $(this).parents("tbody tr").children().eq(1).text();
+		var teacher_phone = $(this).parents("tbody tr").children().eq(3).text();
+		var deltitle = ""+teacher_name+" / "+teacher_phone+"";
+		$(".deltitle").text(deltitle);
+		$(".delbody").text(deltitle);
+		$(".delinput").val(teacher_id);
 		
 		$("#t-del-Modal").modal("show");
 		
 	});
+	
+	
+	$(document).on("click", ".searchbtn", function(){
+		
+		key= $("#key").val();
+		value = $("#value").val();		
+		$(this).parents().find("li").removeClass("active");		
+		var txt="";
+		var page="";
+		$(this).parents().find(".pagination").find("li").eq(0).addClass("active");
+		$.ajax({
+			url:"adminteachsearch",
+			data:{"key":key, "value":value},
+			success:function(data){
+				console.log(data);
+				var item = JSON.parse(data);
+				if(item.length != 0){
+					for(var i=0; i<item.length; i++){
+						txt += "<tr>";
+						txt += "<td>"+item[i].teacher_id+"";
+						txt += "<td>"+item[i].teacher_name+"</td>";
+						txt += "<td>"+item[i].teacher_ssn+"</td>";
+						txt += "<td>"+item[i].teacher_phone+"</td>";
+						txt += "<td>"+item[i].teacher_hiredate+"</td>";
+						
 
-	$(".subcountbtn").on("click", function(){
-		$("#tlist-Modal").modal("show");
+						var disabled ="";
+						if(item[i].count_ == 0){
+							disabled = "disabled";
+						}else{
+						}
+						txt += "<td><button type=\"button\" class=\"btn btn-default btn-sm subcountbtn\" "+disabled+" value=\""+item[i].teacher_id+"\"> <span class=\"badge\" id=\"Count\" >"+item[i].count_+"</span> 보기 </button></td>"
+						txt += "<td><button type=\"button\" class=\"btn btn-default modifybtn\" value=\""+item[i].teacher_id+"\">수정</button></td>";
+						txt += "<td><button type=\"button\" class=\"btn btn-default delbtn\" "+item[i].check+" value=\""+item[i].teacher_id+"\">삭제</button></td>";
+						txt += "</tr>";	
+						
+						
+						
+					}
+					
+					for(var i=0; i<item[0].totalpage; i++){
+						var count = i+1;
+						if(i == 0){
+							page += "<li class=\"active\"><a href=\"#\" class=\"pagenum\" id=\""+count+"\">"+count+"</a></li>";
+						}else{
+							page += "<li><a href=\"#\" class=\"pagenum\" id=\""+count+"\">"+count+"</a></li>";
+						}
+					}
+				}else{
+					txt += "<tr><td colspan=\"8\" style=\"text-align: center;\">검색된 결과가 없습니다.</td></tr>";
+					page += "";
+				}
+
+				$(".pagination").html(page);
+				$(".tbody").html(txt); 
+			}});
+		
+		
+		
+		
+	}); 
+
+	$(document).on("click",".subcountbtn", function(){
+		
+		var teacher_id = $(this).val();
+		var teacher_name = $(this).parents("tbody tr").children().eq(1).text();
+		var teacher_phone = $(this).parents("tbody tr").children().eq(3).text();
+		var countbody = ""+teacher_id+" "+teacher_name+"/"+teacher_phone+"";
+		
+		$(".countbody").text(countbody);
+		
+		var txt="";
+		$.ajax({			
+			url :"adminteachsub",
+			data : {"teacher_id":teacher_id},
+			success : function(data){
+				var item = JSON.parse(data);
+				for(var i=0; i<item.length; i++){					
+					txt += "<tr><td>"+item[i].subject_id+"</td><td>"+item[i].subject_name+"</td></tr>";				
+				} 
+				
+				$(".teachsub").html(txt);
+				$("#tlist-Modal").modal("show");
+
+			}});
+		
 	});
 
 	$(".addbtn").on("click", function(){
-		$("#t-insert-Modal").modal("show");
+		var txt="";
+		$.ajax({			
+			url :"adminbasicsublist",
+			success : function(data){
+				var item = JSON.parse(data);
+				for(var i=0; i<item.length; i++){
+					txt += "<label><input type='checkbox' name='sub' value='"+item[i].subject_id+"'>"+item[i].subject_name+"</label><br>";
+				
+				} 
+				
+				$(".addcheckbox").html(txt);
+				$("#t-insert-Modal").modal("show");				
+
+			}});
 	});
 	
 
 	$(document).on("click",".pagenum", function(){
 		$(this).parents().find("li").removeClass("active");		
 		var txt="";
+		key= $("#key").val();
+		value = $("#value").val();		
 		var currentpage = $(this).text();
 		$(this).parent().addClass("active");
-		console.log($(this).parents());
 		$.ajax({
 			url:"adminteachpage",
-			data:{"currentpage2":currentpage},
+			data:{"currentpage2":currentpage, "key":key,"value":value},
 			success:function(data){
 				var item = JSON.parse(data);
+				console.log(data);
 				for(var i=0; i<item.length; i++){
 					txt += "<tr>";
 					txt += "<td>"+item[i].teacher_id+"</td>";
@@ -412,9 +460,18 @@ $(document).ready(function() {
 					txt += "<td>"+item[i].teacher_ssn+"</td>";
 					txt += "<td>"+item[i].teacher_phone+"</td>";
 					txt += "<td>"+item[i].teacher_hiredate+"</td>";
-					txt += "<td><button type=\"button\" class=\"btn btn-default btn-sm subcountbtn\"  value=\""+item[i].teacher_id+"\"> <span class=\"badge\" id=\"Count\" >"+item[i].count_+"</span> 보기 </button></td>"
+					
+
+					var disabled ="";
+					if(item[i].count_ == 0){
+						disabled = "disabled";
+					}else{
+					}
+					txt += "<td><button type=\"button\" class=\"btn btn-default btn-sm subcountbtn\" "+disabled+" value=\""+item[i].teacher_id+"\"> <span class=\"badge\" id=\"Count\" >"+item[i].count_+"</span> 보기 </button></td>"
+					
+					
 					txt += "<td><button type=\"button\" class=\"btn btn-default modifybtn\" value=\""+item[i].teacher_id+"\">수정</button></td>";
-					txt += "<td><button type=\"button\" class=\"btn btn-default delbtn\"  value=\""+item[i].teacher_id+"\">삭제</button></td>";
+					txt += "<td><button type=\"button\" class=\"btn btn-default delbtn\" "+item[i].check+" value=\""+item[i].teacher_id+"\">삭제</button></td>";
 					txt += "</tr>";	
 				} 
 						
@@ -422,7 +479,7 @@ $(document).ready(function() {
 			}});
 		
 	});
-
+ 
 });
 
 

@@ -1,8 +1,10 @@
 package com.mgr.service;
 
-
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -21,45 +23,77 @@ public class AdminServiceImpl implements AdminService {
 	private AdminDAO dao;
 
 	@Override
-	public List<AdminTeachVO> adminTeachListAll(String currentpage2) {
-		List<AdminTeachVO> result1 = dao.adminTeachListAll();
+	public List<AdminTeachVO> adminTeachListAll(String currentpage2, AdminTeachVO t) {
+		List<AdminTeachVO> result1 = dao.adminTeachListAll(t); //강사 전체 목록
 		List<AdminTeachVO> result = new ArrayList<AdminTeachVO>();
-		int totalrow = result1.size();
-		int totalpage;
-		int currentpage;
-		int listpage; // 미정
-		int max = 5;
-		
-
-		if (currentpage2 == null || currentpage2.equals("")) {
-			currentpage = 1;
-		} else {
-			currentpage = Integer.parseInt(currentpage2);
-		}
-		if (totalrow % max != 0) {
-			totalpage = (totalrow / max) + 1;
-		} else {
-			totalpage = totalrow / max;
-		}
-		
-		
-		for (int i = currentpage * max - max; i < currentpage * max; i++) {
-			if(i == totalrow)
-				break;
-			AdminTeachVO m = new AdminTeachVO();
-			m.setTeacher_id(result1.get(i).getTeacher_id());
-			m.setTeacher_name(result1.get(i).getTeacher_name());
-			m.setTeacher_ssn(result1.get(i).getTeacher_ssn());
-			m.setTeacher_phone(result1.get(i).getTeacher_phone());
-			m.setTeacher_hiredate(result1.get(i).getTeacher_hiredate());
-			m.setCount_(result1.get(i).getCount_());
-			m.setCheck(result1.get(i).getCheck());
-			m.setCheck2(result1.get(i).getCheck2());
-			m.setTotalrow(totalpage);
-			result.add(m);
+		try {
 			
-		}
+			List<AdminTeachVO> disblecheck1 = dao.adminTeachdisable1(t); // 강사 관리 삭제 비활성화 체크, 개설과목과 연결되있는지 확인
+			List<AdminTeachVO> disblecheck2 = dao.adminTeachdisable2(t); // 강사 관리 삭제 비활성화 체크, 강의가능과 연결되있는지 확인
+			int totalrow = result1.size();
+			int totalpage;
+			int currentpage;
+			int listpage; // 미정
+			int max = 5;
 
+			if (currentpage2 == null || currentpage2.equals("")) {
+				currentpage = 1;
+			} else {
+				currentpage = Integer.parseInt(currentpage2);
+			}
+			if (totalrow % max != 0) {
+				totalpage = (totalrow / max) + 1;
+			} else {
+				totalpage = totalrow / max;
+			}
+			
+			
+			disblecheck1.addAll(disblecheck2);
+			
+			List<String> disblecheck= new ArrayList<String>();
+			for(int i=0; i<disblecheck1.size(); i++) {
+				disblecheck.add(disblecheck1.get(i).getTeacher_id());
+			}
+			
+			HashSet<String> hs = new HashSet<String>(); //중복 제거
+			hs.addAll(disblecheck);
+			disblecheck.clear();
+			disblecheck.addAll(hs);
+			
+		
+			
+			for (int i = 0; i < result1.size(); i++) {
+				for (int j = 0; j < disblecheck.size(); j++) {
+					if (result1.get(i).getTeacher_id().equals(disblecheck.get(j))) {
+						result1.get(i).setCheck("disabled");
+						break;
+					}
+				}			
+			}
+			
+
+			for (int i = currentpage * max - max; i < currentpage * max; i++) {
+				if (i == totalrow)
+					break;
+				AdminTeachVO m = new AdminTeachVO();
+				m.setTeacher_id(result1.get(i).getTeacher_id());
+				m.setTeacher_name(result1.get(i).getTeacher_name());
+				m.setTeacher_ssn(result1.get(i).getTeacher_ssn());
+				m.setTeacher_phone(result1.get(i).getTeacher_phone());
+				m.setTeacher_hiredate(result1.get(i).getTeacher_hiredate());
+				m.setCount_(result1.get(i).getCount_());			
+				m.setCheck(result1.get(i).getCheck());
+				m.setTotalpage(totalpage);
+				m.setTotalrow(totalrow);
+				result.add(m);
+
+			}
+
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 		return result;
 	}
 
@@ -81,7 +115,8 @@ public class AdminServiceImpl implements AdminService {
 		return 0;
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED, rollbackFor = {Exception.class,RuntimeException.class, DataAccessException.class})
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = { Exception.class, RuntimeException.class,
+			DataAccessException.class })
 	@Override
 	public int adminTeachModifyinfo(AdminTeachVO t) {
 
@@ -132,4 +167,57 @@ public class AdminServiceImpl implements AdminService {
 		return totalsub;
 	}
 
+	@Override
+	public List<AdminTeachVO> adminBasicsublist() {
+		List<AdminTeachVO> result = dao.adminBasicsublist(); // 전체 과목 목록
+		return result;
+	}
+
+	
+	
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = { Exception.class, RuntimeException.class,
+			DataAccessException.class })
+	@Override
+	public int adminteachadd(AdminTeachVO t) {
+		int code = 100;
+		
+
+		try {
+			String teacher_id = dao.adminTeachId();
+			t.setTeacher_id(teacher_id);
+			dao.adminTeachadd(t);
+
+			if (t.getSub() != null) {
+				for (int i = 0; i < t.getSub().length; i++) {
+					t.setSubject_id(t.getSub()[i]);
+					dao.adminTeachsubInsert(t);
+				}
+			}
+			
+			
+
+		} catch (Exception e) {
+			code = 200;
+			e.printStackTrace();
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+		}
+
+		return code;
+	}
+
+	@Override
+	public int adminteachdel(String teacher_id) {
+		int result = 100;
+		try {
+			 dao.adminTeachDel(teacher_id);
+		}catch(Exception e) {
+			e.printStackTrace();
+			result = 200;
+		}
+		
+		return result;
+	}
+
+	
+	
 }
