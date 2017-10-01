@@ -1,4 +1,4 @@
-package com.mgr.service;
+package com.mgr.service.admin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,21 +6,24 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
-import com.mgr.dao.AdminDAO;
+import com.mgr.dao.admin.AdminTeachDAO;
 import com.mgr.dto.AdminTeachVO;
 
 @Service
-public class AdminServiceImpl implements AdminService {
+public class AdminTeachServiceImpl implements AdminTeachService {
 
 	@Autowired
-	private AdminDAO dao;
+	private AdminTeachDAO dao;
 
 	@Override
 	public List<AdminTeachVO> adminTeachListAll(String currentpage2, AdminTeachVO t) {

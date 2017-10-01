@@ -34,6 +34,13 @@
 <script>
 	$(document).ready(function() {
 		
+		 $('#value').keypress(function(event){
+		     if ( event.which == 13 ) {
+		         $('.searchbtn').click();
+		         return false;
+		     }
+		}); 
+		
 		if("${code}"==100){
 			 swal({
 				    type: 'success',

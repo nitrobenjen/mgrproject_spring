@@ -1,10 +1,10 @@
-package com.mgr.service;
+package com.mgr.service.admin;
 
 import java.util.List;
 
 import com.mgr.dto.AdminTeachVO;
 
-public interface AdminService {
+public interface AdminTeachService {
 	
 	// 강사 전체 목록
 	public List<AdminTeachVO> adminTeachListAll(String currentpage2, AdminTeachVO t);

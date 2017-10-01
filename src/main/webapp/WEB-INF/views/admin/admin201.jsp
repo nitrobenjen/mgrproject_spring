@@ -348,7 +348,6 @@ $(document).ready(function() {
 			url:"adminteachsearch",
 			data:{"key":key, "value":value},
 			success:function(data){
-				console.log(data);
 				var item = JSON.parse(data);
 				if(item.length != 0){
 					for(var i=0; i<item.length; i++){

@@ -1,10 +1,12 @@
-package com.mgr.dao;
+package com.mgr.dao.admin;
 
 import com.mgr.dto.*;
 import java.util.*;
 
-public interface AdminDAO {
+public interface AdminTeachDAO {
 
+	
+	//////////////////강사 계정 관리//////////////////////////////
 	// 강사 전체 목록
 	public List<AdminTeachVO> adminTeachListAll(AdminTeachVO t);
 
@@ -41,5 +43,7 @@ public interface AdminDAO {
 	
 	// 강사 삭제
 	public int adminTeachDel(String teacher_id);
+	
+//////////////////강사 계정 관리 끝//////////////////////////////
 
 }

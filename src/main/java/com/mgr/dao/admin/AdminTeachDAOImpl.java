@@ -1,15 +1,16 @@
-package com.mgr.dao;
+package com.mgr.dao.admin;
 
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.mgr.dto.AdminTeachVO;
 
 @Repository
-public class AdminDAOImpl implements AdminDAO {
+public class AdminTeachDAOImpl implements AdminTeachDAO {
 	
 	@Autowired
 	private SqlSession session;
