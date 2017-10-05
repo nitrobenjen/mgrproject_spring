@@ -12,11 +12,12 @@
 	
 	<!-- student -->
 	<decorator name="stuLayout" page="stuLayout.jsp">
-		<pattern>/stu</pattern>
+		<pattern>/stu*</pattern>
 	</decorator>
 	
 	<!-- decorators를 적용시키지 않을 url 패턴 -->
 	<excludes>
-		<pattern>/excludes/*</pattern>
+		<pattern>/student/studentinfo*</pattern>
+		<pattern>/teacher/teacherinfo*</pattern>
 	</excludes>
 </decorators>

@@ -350,7 +350,13 @@ $(document).ready(function() {
 							}
 							group = group+1;					
 							var a = i+1;
-							page+="<li><a href=\"#\" class=\"number pagination\" >"+a+"</li>";
+							if(item.startIndex == i){
+								page+="<li class='active'><a href=\"#\" class=\"number pagination\" >"+a+"</li>";
+							}else{
+								page+="<li><a href=\"#\" class=\"number pagination\" >"+a+"</li>";
+							}
+							
+							
 						}
 					}
 					
@@ -629,7 +635,13 @@ $(document).on("click", ".book_search2", function(){
 						}
 						group = group+1;					
 						var a = i+1;
-						page+="<li><a href=\"#\" class=\"number pagination\" >"+a+"</li>";
+						
+						if(item.startIndex == i){
+							page+="<li class='active'><a href=\"#\" class=\"number pagination\" >"+a+"</li>";
+						}else{
+							page+="<li><a href=\"#\" class=\"number pagination\" >"+a+"</li>";
+						}
+						
 					}
 				}
 				

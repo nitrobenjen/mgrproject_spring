@@ -59,18 +59,18 @@
 			<div style="text-align: center;">
 
 							<ul class="pagination" style="margin: 0px 0px 20px 0px;">
-							<c:forEach begin="1" end="${totalpage}" varStatus="status">
-							
-							<c:choose>
-							<c:when test="${status.count==1}">
-							<li class="active"><a href="#" class="pagenum" id="${status.count}">${status.count}</a></li>
-							</c:when>
-							<c:otherwise>
-							<li><a href="#" class="pagenum" id="${status.count}">${status.count}</a></li>
-							
-							</c:otherwise>
-							
-							</c:choose>
+								<c:forEach begin="1" end="${totalpage}" varStatus="status">
+								
+									<c:choose>
+									<c:when test="${status.count==1}">
+									<li class="active"><a href="#" class="pagenum" id="${status.count}">${status.count}</a></li>
+									</c:when>
+									<c:otherwise>
+									<li><a href="#" class="pagenum" id="${status.count}">${status.count}</a></li>
+									
+									</c:otherwise>
+									
+									</c:choose>
 							
 								
 								</c:forEach>
@@ -485,6 +485,3 @@ $(document).ready(function() {
 
 
 </script>
-
-</body>
-</html>

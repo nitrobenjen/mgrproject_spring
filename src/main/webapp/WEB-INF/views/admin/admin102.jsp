@@ -163,7 +163,7 @@
 $(document).ready(function() {
 	var key="";
 	var value="";
-	
+
 	
 	$(document).on("click",".addbtn",function() {
 				

@@ -13,6 +13,8 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/style.css">
+	
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -20,7 +22,8 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <!-- jQuery UI 사용 환경 설정 -->
-<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+ <!--  <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <!-- sweetalert2 CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.9.1/sweetalert2.min.js"></script>
@@ -68,7 +71,7 @@
 		<div class="title">
 			<img src="${pageContext.request.contextPath}/resources/img/sist_logo.png"
 				width="300px">
-			<div class="login">관리자 님 │ 로그아웃</div>
+			<div class="login">관리자 님 │ <a href="${pageContext.request.contextPath}/login/logout">로그아웃</a></div>
 		</div>
 		<div id="menu">
 			<div class="menu">

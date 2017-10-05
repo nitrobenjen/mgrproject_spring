@@ -1,73 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
-<%
-	String contextRoot = request.getContextPath();
-%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Insert title here</title>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/style.css">
-
-
-<!-- jQuery UI 사용 환경 설정 -->
-<link rel="stylesheet"
-	href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-
-
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-<!-- jQuery UI 사용 환경 설정 -->
-<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-
-
-<style>
-</style>
-
-<script>
-	$(document).ready(function() {
-
-	});
-</script>
-</head>
-<body>
-
-
-	<div id="main">
-		<div class="title">
-			<img src="${pageContext.request.contextPath}/img/sist_logo.png" width="300px">
-			<div class="login">
-				<a href="${pageContext.request.contextPath}/teacher/info.jsp">[강사]김정은</a> 님 │ 로그아웃
-			</div>
-		</div>
-		<div id="menu">
-			<div class="menu">
-				<ul class="nav nav-pills nav-justified">
-					<li><a class="dropdown-toggle" data-toggle="dropdown" href="#">강의스케쥴</a>
-						<ul class="dropdown-menu">
-							<li><a href="${pageContext.request.contextPath}/teacher/teacher101.jsp">강의
-									예정</a></li>
-							<li><a href="${pageContext.request.contextPath}/teacher/teacher102.jsp">강의
-									중</a></li>
-							<li><a href="${pageContext.request.contextPath}/teacher/teacher103.jsp">강의
-									종료</a></li>
-						</ul></li>
-					<li><a
-						href="${pageContext.request.contextPath}/teacher/teacher201.jsp">배점관리</a></li>
-					<li class="active"><a href="${pageContext.request.contextPath}/teacher/teacher301.jsp">성적관리</a></li>
-				</ul>
-			</div>
-		</div>
-
-		<div class="content">
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
+<%@ taglib prefix="decorator" uri="http://www.opensymphony.com/sitemesh/decorator"%>
+<%@ taglib prefix="page" uri="http://www.opensymphony.com/sitemesh/page"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 			<h3>성적관리</h3>
 
@@ -91,8 +26,8 @@
 						<th>선택</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
+				<tbody class="tbody">
+<!-- 					<tr>
 						<td>OUB001</td>
 						<td>자바 네트워트 프로그래밍</td>
 						<td>17/07/01 ~ 17/07/31</td>
@@ -105,96 +40,197 @@
 						<td>50</td>
 						<td>17/07/29</td>
 						<td>simsim_170729.zip</td>
-						<td><button type="button" class="btn btn-default" onclick="location.href='<%=contextRoot%>/teacher/teacher302.jsp'">선택</button></td>
-					</tr>
-					<tr>
-						<td>OUB027</td>
-						<td>UI/UX가이드 제작</td>
-						<td>17/08/01 ~ 17/08/31</td>
-						<td>애플리케이션 성능 최적화 구현 양성과정</td>
-						<td>17/03/31 ~ 17/10/31</td>
-						<td>제4강의실</td>
-						<td>UI / UX 디자인 이론과 실습</td>
-						<td>15</td>
-						<td>35</td>
-						<td>50</td>
-						<td>17/08/30</td>
-						<td>ux_170830.zip</td>
-						<td><button type="button" class="btn btn-default"
-								data-toggle="modal" data-target="#Modal">선택</button></td>
-					</tr>
-					<tr>
-						<td>OUB030</td>
-						<td>JDBC 프로그래밍</td>
-						<td>17/09/01 ~ 17/09/30</td>
-						<td>Java&Python 기반 응용SW 개발자 양성</td>
-						<td>17/06/01 ~ 17/12/29</td>
-						<td>제3강의실</td>
-						<td>쉽게 배우는 오라클</td>
-						<td>-</td>
-						<td>-</td>
-						<td>-</td>
-						<td>-</td>
-						<td>-</td>
-						<td><button type="button" class="btn btn-default"
-								data-toggle="modal" data-target="#Modal" disabled>선택</button></td>
-					</tr>
-					<tr>
-						<td>OUB003</td>
-						<td>HTML5/CSS3/JavaScript</td>
-						<td>17/01/01 ~ 17/01/15</td>
-						<td>Framework을 활용한 빅데이터 개발자 과정</td>
-						<td>16/09/01 ~ 17/02/28</td>
-						<td>제2강의실</td>
-						<td>html 웹 프로그래밍 입문</td>
-						<td>-</td>
-						<td>-</td>
-						<td>-</td>
-						<td>-</td>
-						<td>-</td>
-						<td><button type="button" class="btn btn-default"
-								data-toggle="modal" data-target="#Modal" disabled>선택</button></td>
-					</tr>
-					<tr>
-						<td>OUB005</td>
-						<td>플랫폼별 UI디자인</td>
-						<td>17/11/02 ~ 17/12/23</td>
-						<td>UI/UX 개발자 양성과정</td>
-						<td>17/07/01 ~ 17/12/23</td>
-						<td>제1강의실</td>
-						<td>논쟁적 UX</td>
-						<td>-</td>
-						<td>-</td>
-						<td>-</td>
-						<td>-</td>
-						<td>-</td>
-						<td><button type="button" class="btn btn-default"
-								data-toggle="modal" data-target="#Modal" disabled>선택</button></td>
-					</tr>
+						<td><button type="button" class="btn btn-default gradeview" >선택</button></td>
+					</tr> -->
+					
+					<c:if test="${fn:length(sublist) > 0}">
+					
+						<c:forEach var="a" items="${sublist}">
+						
+						<tr>
+						<td>${a.open_sub_id}</td>
+						<td>${a.subject_name}</td>
+						<td>${a.sub_start_day}~${a.sub_end_day}</td>
+						<td>${a.course_name}</td>
+						<td>${a.course_start_day}~${a.course_end_day }</td>
+						<td>${a.class_name}</td>
+						<td>${empty a.book_name?"교재없음":a.book_name}</td>
+						<td>${a.chulsuk_total_grade==0?"X":a.chulsuk_total_grade}</td>
+						<td>${a.filki_total_grade==0?"X":a.filki_total_grade}</td>
+						<td>${a.silki_total_grade==0?"X":a.silki_total_grade}</td>
+						<td>${empty a.test_date?"X":a.test_date}</td>
+						<td>${empty a.test_munje?"X":a.test_munje}</td>
+						
+							<td><input type="hidden" class="open_course_id" value="${a.open_course_id}"><button type="button" class="btn btn-default gradeview" value="${a.open_sub_id}" ${a.chulsuk_total_grade==0 || a.filki_total_grade==0 || a.silki_total_grade==0?"disabled":"" } >선택</button></td>
+							</tr>
+						</c:forEach>
+					
+					</c:if>
+					
+					<c:if test="${fn:length(sublist) == 0}">
+					<tr><td colspan=14 style="text-align: center;">검색된 결과가 없습니다.</td></tr>
+					
+					</c:if>
+					
+					
 				</tbody>
 			</table>
 
 
-			<form class="form-inline" method="post" style="text-align: center;">
+			<form class="form-inline" method="post" style="text-align: center;" >
 				<div class="form-group">
 					<select class="form-control" id="key" name="key">
-						<option value="name">Name</option>
-						<option value="phone">Phone</option>
-						<option value="email">Email</option>
-						<option value="regDate">RegDate</option>
+						<option value="open_sub_id">개설과목ID</option>
+						<option value="subject_name">과목명</option>
 					</select>
 				</div>
 				<div class="form-group">
-					<input type="text" class="form-control" id="value" name="value"
-						required>
+					<input type="text" class="form-control" id="value" name="value" 	required>
 				</div>
-				<button type="submit" class="btn btn-default">Search</button>
+				<button type="button" class="btn btn-default searchbtn">Search</button>
 			</form>
+			
+			
+<form id="gradeviewnext" action="teacher302" method="post">
+<input type="hidden" id="open_course_id2" name="open_course_id">
+<input type="hidden" id="open_sub_id" name="open_sub_id">
+<input type="hidden" id="subject_name" name="subject_name">
+<input type="hidden" id="sub_start_day" name="sub_start_day">
+<input type="hidden" id="sub_end_day" name="sub_end_day">
+<input type="hidden" id="course_name" name="course_name">
+<input type="hidden" id="course_start_day" name="course_start_day">
+<input type="hidden" id="course_end_day" name="course_end_day">
+<input type="hidden" id="class_name" name="class_name">
+<input type="hidden" id="book_name" name="book_name">
+<input type="hidden" id="chulsuk_total_grade" name="chulsuk_total_grade">
+<input type="hidden" id="filki_total_grade" name="filki_total_grade">
+<input type="hidden" id="silki_total_grade" name="silki_total_grade">
+<input type="hidden" id="test_date" name="test_date">
+<input type="hidden" id="test_munje" name="test_munje">
+</form>
 
 
-		</div>
-	</div>
+<script>
+
+$(document).ready(function() {
+	$(document).on("click", ".gradeview", function(){	
+		var open_sub_id = $(this).val();
+		var open_course_id = $(this).prev().val();
+		var subject_name = $(this).parent().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().text();
+		var sub_start_day =  $(this).parent().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().text().split("~")[0];
+		var sub_end_day =  $(this).parent().prev().prev().prev().prev().prev().prev().prev().prev().prev().prev().text().split("~")[1];
+		var class_name = $(this).parent().prev().prev().prev().prev().prev().prev().prev().prev().prev().text();
+		var book_name = $(this).parent().prev().prev().prev().prev().prev().prev().prev().prev().text();
+		var course_start_day =  $(this).parent().prev().prev().prev().prev().prev().prev().prev().prev().text().split("~")[0];
+		var course_end_day =  $(this).parent().prev().prev().prev().prev().prev().prev().prev().prev().text().split("~")[1];
+		
+		var chulsuk_total_grade =  $(this).parent().prev().prev().prev().prev().prev().text();
+		var filki_total_grade =  $(this).parent().prev().prev().prev().prev().text();
+		var silki_total_grade =  $(this).parent().prev().prev().prev().text();
+		var test_date=  $(this).parent().prev().prev().text();
+		var test_munje =  $(this).parent().prev().text();
+		
+		$("#open_course_id2").val(open_course_id);
+		$("#open_sub_id").val(open_sub_id);	
+		$("#subject_name").val(subject_name);	
+		$("#sub_start_day").val(sub_start_day);	
+		$("#sub_end_day").val(sub_end_day);	
+		$("#course_name").val(class_name);	
+		$("#course_start_day").val(course_start_day);	
+		$("#course_end_day").val(course_end_day);	
+		$("#class_name").val(class_name);	
+		$("#book_name").val(book_name);
+		$("#chulsuk_total_grade").val(chulsuk_total_grade);	
+		$("#filki_total_grade").val(filki_total_grade);	
+		$("#silki_total_grade").val(silki_total_grade);	
+		$("#test_date").val(test_date);	
+		$("#test_munje").val(test_munje);	
+		$("#open_sub_id").val(open_sub_id);			
+		
+		$("#gradeviewnext").submit();
+		
+		
+	});
+	
+	$(document).on("click",".searchbtn", function(){
+		key= $("#key").val();
+		value = $("#value").val();
+		var txt="";
+		$.ajax({			
+			url:"teachbaejumsearch",
+			data:{"key":key, "value":value},
+			success:function(data){
+				var item = JSON.parse(data);
+					
+				if(item.length != 0){
+				
+					for(var i=0; i<item.length; i++){
+				var disabled="";
+				
+					txt+="<input type=\"hidden\" class=\"open_course_id\" value=\""+item[i].open_course_id+"\">";
+				if(item[i].chulsuk_total_grade == 0 || item[i].filki_total_grade == 0 || item[i].silki_total_grade == 0){
+					disabled = "disabled";
+				}
+						txt += "<tr>";
+						txt += "<td>"+item[i].open_sub_id+"</td>";
+						txt += "<td>"+item[i].subject_name+"</td>";
+						txt += "<td>"+item[i].sub_start_day+"~"+item[i].sub_end_day+"</td>";
+						txt += "<td>"+item[i].course_name+"</td>";
+						txt += "<td>"+item[i].course_start_day+"~"+item[i].course_end_day+"</td>";
+						txt += "<td>"+item[i].class_name+"</td>";
+						if(item[i].book_name == null){
+							txt += "<td>교재없음</td>";
+						}else{
+							txt += "<td>"+item[i].book_name+"</td>";
+						}
+						
+						if(item[i].chulsuk_total_grade == 0){
+							txt += "<td>X</td>";
+						}else{
+							txt += "<td>"+item[i].chulsuk_total_grade+"</td>";
+						}
+						
+						if(item[i].filki_total_grade == 0){
+							txt += "<td>X</td>";
+						}else{
+							txt += "<td>"+item[i].filki_total_grade+"</td>";
+						}
+						
+						
+						if(item[i].silki_total_grade == 0){
+							txt += "<td>X</td>";
+						}else{
+							txt += "<td>"+item[i].silki_total_grade+"</td>";
+						}
+						
+						if(item[i].test_date == null){
+							txt += "<td>X</td>";
+						}else{
+							txt += "<td>"+item[i].test_date+"</td>";
+						}
+						
+						if(item[i].test_munje == null){
+							txt += "<td>X</td>";
+						}else{
+							txt += "<td>"+item[i].test_munje+"</td>";
+						}
+						
+						
+						txt += "<td><button type=\"button\" class=\"btn btn-default gradeview\" value=\""+item[i].open_sub_id+"\" "+disabled+">선택</button></td>";
+						txt += "</tr>";
+						
+					}
+				}else{
+					txt += "<tr><td colspan=\"14\" style=\"text-align: center;\">검색된 결과가 없습니다.</td></tr>";					
+				}
+			
+				$(".tbody").html(txt); 
+			}});
+		
+	});
+	
+});
 
 
-</body>
-</html>
+
+</script>

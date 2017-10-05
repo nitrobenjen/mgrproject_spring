@@ -1,11 +1,12 @@
 			<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="false" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 			<h3>성적 관리 > 과목별</h3>
 
-			<h4 style="text-align: center;font-weight:bold;">OCU001 / Framework을 활용한 빅데이터 개발자 과정</h4>
-			<h5 style="text-align: center;">2016/09/01 ~ 2017/02/01</h5>
+			<h4 style="text-align: center; font-weight: bold;" class="main">${open_course.open_course_id}/ ${open_course.course_name}</h4>
+			<h5 style="text-align: center;" class="main2">${open_course.course_start_day}~${open_course.course_end_day}</h5>
 
 			<hr>
 
@@ -21,8 +22,8 @@
 						<th>성적 등록 인원수</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
+				<tbody class="tbody">
+<!-- 					<tr>
 						<td>OUB001</td>
 						<td>자바 네트워트 프로그래밍</td>
 						<td>17/07/01</td>
@@ -32,37 +33,34 @@
 						<td><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#grade-insert-Modal">
 								<span class="badge" id="Count">5</span> 보기
 							</button></td>
-					</tr>
-					<tr>
-						<td>OUB002</td>
-						<td>관계형 데이터베이스</td>
-						<td>17/07/01</td>
-						<td>17/07/31</td>
-						<td>html 웹 프로그래밍 기초</td>
-						<td>심심해</td>
-						<td><button type="button" class="btn btn-default btn-sm" disabled>
-								<span class="badge" id="Count">0</span> 보기
+					</tr> -->
+					
+					
+			<c:if test="${fn:length(open_sub) > 0}">
+				
+					<c:forEach var="a" items="${open_sub}">
+							
+							<tr>
+								<td>${a.open_sub_id}</td>
+								<td>${a.subject_name}</td>
+								<td>${a.sub_start_day}</td>
+								<td>${a.sub_end_day}</td>
+								<td>${empty a.book_name?"교재없음":a.book_name}</td>
+								<td>${a.teacher_name}</td>
+								<td><button type="button" class="btn btn-default btn-sm gradeview" value="${a.open_sub_id}" ${a.count_==0?"disabled":""} ><span class="badge" id="Count">${a.count_}</span> 보기
 							</button></td>
-					</tr>
+								
+							</tr>							
+					
+							</c:forEach>
+				
+				
+				</c:if>
+					
 				</tbody>
 			</table>	
 
-			<form class="form-inline" method="post" style="text-align: center;">
-				<div class="form-group">
-					<select class="form-control" id="key" name="key">
-						<option value="name">Name</option>
-						<option value="phone">Phone</option>
-						<option value="email">Email</option>
-						<option value="regDate">RegDate</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<input type="text" class="form-control" id="value" name="value"
-						required>
-				</div>
-				<button type="submit" class="btn btn-default">Search</button>
-			</form>
-
+		
 
 
 	<!-- 성적 확인 Modal -->
@@ -77,9 +75,9 @@
 				</div>
 				<div class="modal-body">
 				
-				<h4 style="text-align: center;">OUB001 / 자바 네트워트 프로그래밍 / 2016/07/01 ~ 2017/07/31</h4>
-				<h5 style="text-align: center;">출결배점 : 30 / 필기배점 : 30 / 실기배점 : 40</h5>
-				<p style="text-align: right;">시험일 : 2017/01/01</p>
+				<h4 style="text-align: center;" class="modalbody1">OUB001 / 자바 네트워트 프로그래밍 / 2016/07/01 ~ 2017/07/31</h4>
+				<h5 style="text-align: center;" class="modalbody2">출결배점 : 124124/ 필기배점 : 12412/ 실기배점 :12412412</h5>
+				<p style="text-align: right;" class="modalbody3">시험일 : 20124124/01</p>
 				<hr>
 				
 				<table class="table table-striped table-bordered ocu">
@@ -92,59 +90,10 @@
 						<th>실기점수</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody class="tbody2">
 					<tr>
 						<td>STU001</td>
 						<td>홍길동</td>
-						<td>0</td>
-						<td>0</td>
-						<td>0</td>
-					</tr>
-					<tr>
-						<td>STU002</td>
-						<td>이순신</td>
-						<td>0</td>
-						<td>0</td>
-						<td>0</td>
-					</tr>
-					<tr>
-						<td>STU003</td>
-						<td>이순애</td>
-						<td>0</td>
-						<td>0</td>
-						<td>0</td>
-					</tr>
-					<tr>
-						<td>STU004</td>
-						<td>김정훈</td>
-						<td>0</td>
-						<td>0</td>
-						<td>0</td>
-					</tr>
-					<tr>
-						<td>STU005</td>
-						<td>한석봉</td>
-						<td>0</td>
-						<td>0</td>
-						<td>0</td>
-					</tr>
-					<tr>
-						<td>STU006</td>
-						<td>이기자</td>
-						<td>0</td>
-						<td>0</td>
-						<td>0</td>
-					</tr>
-					<tr>
-						<td>STU007</td>
-						<td>장인철</td>
-						<td>0</td>
-						<td>0</td>
-						<td>0</td>
-					</tr>
-					<tr>
-						<td>STU008</td>
-						<td>김영년</td>
 						<td>0</td>
 						<td>0</td>
 						<td>0</td>
@@ -162,5 +111,74 @@
 	</div>
 
 
-</body>
-</html>
+<script>
+$(document).ready(function() {
+	var key="";
+	var value="";
+	
+	
+	$(document).on("click", ".gradeview", function(){
+		
+		var open_sub_id = $(this).val();
+		var subject_name = $(this).parent().prev().prev().prev().prev().prev().text();
+		var sub_start_day = $(this).parent().prev().prev().prev().prev().text();
+		var sub_end_day = $(this).parent().prev().prev().prev().text();
+		
+		$(".modalbody1").html(open_sub_id+"/"+subject_name+"/"+sub_start_day+"~"+sub_end_day);
+		
+		$.ajax({
+			url:"adminsubgradeview",		
+			data:{"open_sub_id":open_sub_id},
+			success:function(data){
+				var item = JSON.parse(data);
+				console.log(item);
+				var txt="";
+				if(item.length != 0){		
+					var testdate= item[0].test_date;
+					var cbaejum = item[0].chulsuk_total_grade;
+					var fbaejum = item[0].filki_total_grade;
+					var sbaejum = item[0].silki_total_grade;
+					
+					for(var i=0; i<item.length; i++){
+						txt += "<tr>";
+						txt += "<td>"+item[i].student_id+"</td>";
+						txt += "<td>"+item[i].student_name+"</td>";
+						txt += "<td>"+item[i].chulsuk_grade+"</td>";
+						txt += "<td>"+item[i].filki_grade+"</td>";
+						txt += "<td>"+item[i].silki_grade+"</td>";					
+						txt += "</tr>";
+						
+					}
+				}else{
+					txt += "<tr><td colspan=\"5\" style=\"text-align: center;\">검색된 결과가 없습니다.</td></tr>";					
+				}
+			
+				$(".tbody2").html(txt);
+				$(".modalbody2").html("출결배점 : "+cbaejum+"/필기배점 : "+fbaejum+" / 실기배점 :"+sbaejum); 
+				$(".modalbody3").html(testdate);
+			}});
+		 
+		
+		$("#grade-insert-Modal").modal("show");
+		
+	});
+	
+
+	
+	$(document).on("click", ".subbtn", function(){
+		var open_course_id = $(this).val();
+		var course_name = $(this).parent().prev().prev().prev().prev().prev().prev().text();
+		var course_start_day = $(this).parent().prev().prev().text();
+		var course_end_day = $(this).parent().prev().text();
+		$("#open_course_id2").val(open_course_id);
+		$("#course_name2").val(course_name);
+		$("#course_start_day2").val(course_start_day);
+		$("#course_end_day2").val(course_end_day);		
+		$("#subnext").submit();
+	});
+	
+	
+});
+
+
+</script>

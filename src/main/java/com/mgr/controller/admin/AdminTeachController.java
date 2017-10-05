@@ -127,58 +127,6 @@ public class AdminTeachController {
 
 	/////////////////////////////////////강사 계정관리 끝/////////////////////////
 
-	@RequestMapping(value = "/admin301", method = RequestMethod.GET)
-	public ModelAndView admin301(Locale locale, Model model) {
-		ModelAndView mav = new ModelAndView("/admin/admin301");
-		return mav;
-	}
-
-	@RequestMapping(value = "/admin302", method = RequestMethod.GET)
-	public ModelAndView admin302(Locale locale, Model model) {
-		ModelAndView mav = new ModelAndView("/admin/admin302");
-		return mav;
-	}
-
-	@RequestMapping(value = "/admin303", method = RequestMethod.GET)
-	public ModelAndView admin303(Locale locale, Model model) {
-		ModelAndView mav = new ModelAndView("/admin/admin303");
-		return mav;
-	}
-
-	@RequestMapping(value = "/admin401", method = RequestMethod.GET)
-	public ModelAndView admin401(Locale locale, Model model) {
-		ModelAndView mav = new ModelAndView("/admin/admin401");
-		return mav;
-	}
-
-	@RequestMapping(value = "/admin402", method = RequestMethod.GET)
-	public ModelAndView admin402(Locale locale, Model model) {
-		ModelAndView mav = new ModelAndView("/admin/admin402");
-		return mav;
-	}
-
-	@RequestMapping(value = "/admin501", method = RequestMethod.GET)
-	public ModelAndView admin501(Locale locale, Model model) {
-		ModelAndView mav = new ModelAndView("/admin/admin501");
-		return mav;
-	}
-
-	@RequestMapping(value = "/admin501-sub", method = RequestMethod.GET)
-	public ModelAndView admin501sub(Locale locale, Model model) {
-		ModelAndView mav = new ModelAndView("/admin/admin501-sub");
-		return mav;
-	}
-
-	@RequestMapping(value = "/admin502", method = RequestMethod.GET)
-	public ModelAndView admin502(Locale locale, Model model) {
-		ModelAndView mav = new ModelAndView("/admin/admin502");
-		return mav;
-	}
-
-	@RequestMapping(value = "/admin502-sub", method = RequestMethod.GET)
-	public ModelAndView admin502sub(Locale locale, Model model) {
-		ModelAndView mav = new ModelAndView("/admin/admin502-sub");
-		return mav;
-	}
+	
 
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.management.mapper.LoginMapper">
+
+<select id="LoginInfo" parameterType="com.mgr.dto.LoginVO" resultType="com.mgr.dto.LoginVO">
+
+SELECT id_, pw, grade FROM login WHERE id_=#{id_} AND pw=#{pw}
+
+</select>
+
+
+
+</mapper>

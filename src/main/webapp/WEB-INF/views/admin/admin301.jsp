@@ -22,8 +22,8 @@
 						<th>삭제</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
+				<tbody class="tbody">
+<%-- 					<tr>
 						<td>OCU001</td>
 						<td>Framework을 활용한 빅데이터 개발자 과정</td>
 						<td>제2강의실</td>
@@ -40,232 +40,64 @@
 								data-toggle="modal" data-target="#ocu-mod-Modal">수정</button></td>
 						<td><button type="button" class="btn btn-default"
 								data-toggle="modal" data-target="#ocu-del-Modal">삭제</button></td>
-					</tr>
-					<tr>
-						<td>OCU002</td>
-						<td>JAVA를 활용한 사물인터넷(IOT) 응용SW 개발자</td>
-						<td>제4강의실</td>
-						<td>40</td>
-						<td><button type="button" class="btn btn-default btn-sm" disabled><span class="badge" id="totalCount">0</span> 확인</button>
-						</td>
-						<td>17-01-17</td>
-						<td>17-04-17</td>
-						<td><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#oub-count-Modal" disabled>
-								<span class="badge" id="Count">0</span> 확인
+					</tr>	 --%>
+					
+					<c:forEach var="a" items="${courselist}">
+					
+						<tr>
+						<td>${a.open_course_id}</td>
+						<td>${a.course_name}</td>
+						<td>${a.class_name}</td>
+						<td>${a.jungwon}</td>
+						<td><button type="button" class="btn btn-default btn-sm stubtn" value="${a.open_course_id}" ${a.studentcount == 0? "disabled":""} >
+								<span class="badge" id="Count">${a.studentcount}</span> 확인
 							</button></td>
-						<td><button type="button" class="btn btn-default"
-								data-toggle="modal" data-target="#Modal" disabled>수정</button></td>
-						<td><button type="button" class="btn btn-default"
-								data-toggle="modal" data-target="#Modal" disabled>삭제</button></td>
-					</tr>
-					<tr>
-						<td>OCU003</td>
-						<td>Java 보안 개발자 양성과정</td>
-						<td>제3강의실</td>
-						<td>30</td>
-						<td><button type="button" class="btn btn-default btn-sm"><span class="badge" id="totalCount">25</span> 확인</button>
-						</td>
-						<td>17-05-20</td>
-						<td>17-10-27</td>
-						<td><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#oub-count-Modal">
-								<span class="badge" id="Count">1</span> 확인
+						
+						
+						<td>${a.course_start_day}</td>
+						<td>${a.course_end_day}</td>
+						<td><button type="button" class="btn btn-default btn-sm subbtn" value="${a.open_course_id}" >
+								<span class="badge" id="Count">${a.subcount}</span> 확인
 							</button></td>
-						<td><button type="button" class="btn btn-default"
-								data-toggle="modal" data-target="#Modal">수정</button></td>
-						<td><button type="button" class="btn btn-default"
-								data-toggle="modal" data-target="#Modal">삭제</button></td>
-					</tr>
-					<tr>
-						<td>OCU004</td>
-						<td>Java&Python 기반 응용SW 개발자 양성</td>
-						<td>제5강의실</td>
-						<td>25</td>
-						<td><button type="button" class="btn btn-default btn-sm"><span class="badge" id="totalCount">25</span> 확인</button>
-						</td>
-						<td>16-09-01</td>
-						<td>17-02-01</td>
-						<td><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#oub-count-Modal">
-								<span class="badge" id="Count">1</span> 확인
-							</button></td>
-						<td><button type="button" class="btn btn-default"
-								data-toggle="modal" data-target="#Modal">수정</button></td>
-						<td><button type="button" class="btn btn-default"
-								data-toggle="modal" data-target="#Modal">삭제</button></td>
-					</tr>
-					<tr>
-						<td>OCU005</td>
-						<td>UI/UX 개발자 양성과정</td>
-						<td>제2강의실</td>
-						<td>30</td>
-						<td><button type="button" class="btn btn-default btn-sm"><span class="badge" id="totalCount">25</span> 확인</button>
-						</td>
-						<td>17-07-01</td>
-						<td>17-12-23</td>
-						<td><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#oub-count-Modal">
-								<span class="badge" id="Count">1</span> 확인
-							</button></td>
-						<td><button type="button" class="btn btn-default"
-								data-toggle="modal" data-target="#Modal">수정</button></td>
-						<td><button type="button" class="btn btn-default"
-								data-toggle="modal" data-target="#Modal">삭제</button></td>
-					</tr>
-					<tr>
-						<td>OCU006</td>
-						<td>웹기반 빅데이터 분석 응용SW개발자</td>
-						<td>제2강의실</td>
-						<td>30</td>
-						<td><button type="button" class="btn btn-default btn-sm"><span class="badge" id="totalCount">1</span> 확인</button>
-						</td>
-						<td>17-07-01</td>
-						<td>17-12-23</td>
-						<td><button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#oub-count-Modal">
-								<span class="badge" id="Count">1</span> 확인
-							</button></td>
-						<td><button type="button" class="btn btn-default"
-								data-toggle="modal" data-target="#Modal">수정</button></td>
-						<td><button type="button" class="btn btn-default"
-								data-toggle="modal" data-target="#Modal">삭제</button></td>
-					</tr>
+						<td><button type="button" value="${a.open_course_id}" class="btn btn-default modifybtn" ${a.studentcount != 0 || a.subcount != 0? "disabled":""}>수정</button></td>
+						<td><button type="button" value="${a.open_course_id}" class="btn btn-default delbtn"  ${a.studentcount != 0 || a.subcount != 0? "disabled":""} >삭제</button></td>
+						</tr>			
+					
+					</c:forEach>
+							
 				</tbody>
 			</table>
+			
+			<form action="admin303" method="POST" id="stunext">
+			<input type="hidden" name="open_course_id" id="open_course_id">
+			<input type="hidden" name="course_name" id="course_name">
+			<input type="hidden" name="course_start_day" id="course_start_day">
+			<input type="hidden" name="course_end_day" id="course_end_day">			
+			</form>
+			
+			<form action="admin302" method="POST" id="subnext">
+			<input type="hidden" name="open_course_id" id="open_course_id2">
+			<input type="hidden" name="course_name" id="course_name2">
+			<input type="hidden" name="course_start_day" id="course_start_day2">
+			<input type="hidden" name="course_end_day" id="course_end_day2">			
+			</form>
 
-			<button type="button" style="float: left;position: absolute;" class="btn btn-default"
-					data-toggle="modal" data-target="#ocu-insert-Modal">개설 과정 등록</button>
+			<button type="button" style="float: left;position: absolute;" class="btn btn-default addbtn">개설 과정 등록</button>
 
-			<form class="form-inline" method="post" style="text-align: center;">
+			<form class="form-inline"style="text-align: center;">
 				<div class="form-group">
 					<select class="form-control" id="key" name="key">
-						<option value="name">Name</option>
-						<option value="phone">Phone</option>
-						<option value="email">Email</option>
-						<option value="regDate">RegDate</option>
+						<option value="open_course_id">개설과정ID</option>
+						<option value="course_name">과정명</option>
 					</select>
 				</div>
 				<div class="form-group">
 					<input type="text" class="form-control" id="value" name="value"
 						required>
 				</div>
-				<button type="submit" class="btn btn-default">Search</button>
+				<button type="button" class="btn btn-default searchbtn">Search</button>
 			</form>
 
-
-
-
-
-	<!-- 수강생 명단 Modal -->
-	<div class="modal fade" id="ocu-count-Modal" role="dialog">
-		<div class="modal-dialog">
-
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h5 class="modal-title">수강생 명단</h5>
-				</div>
-				<div class="modal-body">
-
-					<h4 style="text-align: center;">OCU001 / Framework을 활용한 빅데이터 개발자 과정</h4>
-					<h5 style="text-align: center;">2016/09/01 ~ 2017/02/01</h5>
-
-					<hr>
-
-					<table class="table table-striped table-bordered ocu">
-						<thead>
-							<tr>
-								<th>수강생 ID</th>
-								<th>이름</th>
-								<th>주민번호 뒷자리</th>
-								<th>전화번호</th>
-								<th>등록일</th>
-								<th>수강횟수</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>STU001</td>
-								<td>홍길동</td>
-								<td>1022432</td>
-								<td>010-1234-1234</td>
-								<td>17/03/21</td>
-								<td>6</td>
-							</tr>
-							<tr>
-								<td>STU002</td>
-								<td>이순신</td>
-								<td>1544236</td>
-								<td>010-4758-6532</td>
-								<td>17/03/21</td>
-								<td>5</td>
-							</tr>
-							<tr>
-								<td>STU003</td>
-								<td>이순애</td>
-								<td>2312547</td>
-								<td>010-4231-1236</td>
-								<td>16/12/29</td>
-								<td>5</td>
-							</tr>
-							<tr>
-								<td>STU004</td>
-								<td>김정훈</td>
-								<td>1788896</td>
-								<td>010-5236-4221</td>
-								<td>17/10/20</td>
-								<td>5</td>
-							</tr>
-							<tr>
-								<td>STU005</td>
-								<td>한석봉</td>
-								<td>1566789</td>
-								<td>010-5211-3542</td>
-								<td>17/10/27</td>
-								<td>5</td>
-							</tr>
-							<tr>
-								<td>STU006</td>
-								<td>이기자</td>
-								<td>2978541</td>
-								<td>010-3214-5357</td>
-								<td>17/10/09</td>
-								<td>5</td>
-							</tr>
-							<tr>
-								<td>STU007</td>
-								<td>장인철</td>
-								<td>1625148</td>
-								<td>010-2345-2525</td>
-								<td>17/04/15</td>
-								<td>5</td>
-							</tr>
-							<tr>
-								<td>STU008</td>
-								<td>김영년</td>
-								<td>2362514</td>
-								<td>010-2222-4444</td>
-								<td>17/11/24</td>
-								<td>5</td>
-							</tr>
-						</tbody>
-					</table>
-
-
-				</div>
-				<div style="text-align:center;">
-					<ul class="pagination">
-					  <li class="active"><a href="#">1</a></li>
-					  <li><a href="#">2</a></li>
-					  <li><a href="#">3</a></li>
-					  <li><a href="#">4</a></li>
-					  <li><a href="#">5</a></li>
-					</ul>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-				</div>
-			</div>
-
-		</div>
-	</div>
 
 
 
@@ -279,42 +111,32 @@
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h5 class="modal-title">개설 과정 등록</h5>
 				</div>
-				<form class="form-horizontal">
+				<form class="form-horizontal" action="admincourseadd" method="POST">
 				<div class="modal-body">
 					
 						<div class="form-group">
 							<label class="control-label col-sm-3 m10">과정 ID</label>
 							<div class="col-sm-9 m10">
-								<select class="form-control" id="sel1">
-							        <option>CU001 / 웹기반 빅데이터 분석 응용SW개발자</option>
-							        <option>CU002 / 애플리케이션 성능 최적화 구현 양성과정</option>
-							        <option>CU003 / Java&Python 기반 응용SW 개발자 양성</option>
-							        <option>CU004 / JAVA를 활용한 사물인터넷(IOT) 응용SW 개발자</option>
-							        <option>CU005 / Framework을 활용한 빅데이터 개발자 과정</option>
-							        <option>CU006 / UI/UX 개발자 양성과정</option>
-							        <option>CU007 / Java 보안 개발자 양성과정</option>
+								<select class="form-control courselist" id="sel1" name="course_id">
+								<!-- <option value="CU001">CU001 / 웹기반 빅데이터 분석 응용SW개발자</option> -->
 							    </select>
 							</div>
 							<label class="control-label col-sm-3 m10">강의실</label>
 							<div class="col-sm-9 m10">
-								<select class="form-control" id="sel1">
-							        <option>CA001 / 제1강의실 / 30</option>
-							        <option>CA002 / 제2강의실 / 25</option>
-							        <option>CA003 / 제3강의실 / 30</option>
-							        <option>CA004 / 제4강의실 / 40</option>
-							        <option>CA005 / 제5강의실 / 25</option>
+								<select class="form-control classlist" id="sel1" name="class_id">
+								<!--  <option value="CA001">CA001 / 제1강의실 / 30</option> -->
 							    </select>
 							</div>
 							<label class="control-label col-sm-3 m10">과정 시작일</label>
 							<div class="col-sm-9 m10">
 								<input type="text" class="form-control" id="ocustartdate"
-									name="ocustartdate" placeholder="과정 시작일(YYYY-MM-DD)"
+									name="course_start_day" placeholder="과정 시작일(YYYY-MM-DD)"
 									required="required">
 							</div>
 							<label class="control-label col-sm-3 m10">과정 종료일</label>
 							<div class="col-sm-9 m10">
 								<input type="text" class="form-control" id="ocuenddate"
-									name="ocuenddate" placeholder="과정 종료일(YYYY-MM-DD)"
+									name="course_end_day" placeholder="과정 종료일(YYYY-MM-DD)"
 									required="required">
 							</div>
 						</div>
@@ -341,40 +163,45 @@
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h5 class="modal-title">개설 과정 수정</h5>
 				</div>
-				<form class="form-horizontal">
+					<form class="form-horizontal" action="admincoursemdify" method="POST">
 				<div class="modal-body">
 				
-				<h4 style="text-align: center;">OCU001 / Framework을 활용한 빅데이터 개발자 과정</h4>
-				<h5 style="text-align: center;">2016/09/01 ~ 2017/02/01</h5>
+				<h4 style="text-align: center;" class="modaltitle"></h4>
+				<h5 style="text-align: center;" class="modalbody"></h5>
 				
 				<hr>
-					
+						
 						<div class="form-group">
+						
+						<label class="control-label col-sm-3 m10">과정 ID</label>
+							<div class="col-sm-9 m10">
+								<select class="form-control courselist" id="sel1" name="course_id">
+								<!-- <option value="CU001">CU001 / 웹기반 빅데이터 분석 응용SW개발자</option> -->
+							    </select>
+							</div>
+						
 							<label class="control-label col-sm-3 m10">강의실</label>
 							<div class="col-sm-9 m10">
-								<select class="form-control" id="sel1">
+								<select class="form-control classlist" name="class_id">
 							        <option>CA001 / 제1강의실 / 30</option>
-							        <option>CA002 / 제2강의실 / 25</option>
-							        <option>CA003 / 제3강의실 / 30</option>
-							        <option>CA004 / 제4강의실 / 40</option>
-							        <option>CA005 / 제5강의실 / 25</option>
 							    </select>
 							</div>
 							<label class="control-label col-sm-3 m10">과정 시작일</label>
 							<div class="col-sm-9 m10">
 								<input type="text" class="form-control" id="ocustartmoddate"
-									name="ocustartdate" placeholder="과정 시작일(YYYY-MM-DD)" value="2016/09/01"
+									name="course_start_day" placeholder="과정 시작일(YYYY-MM-DD)" value=""
 									required="required">
 							</div>
 							<label class="control-label col-sm-3 m10">과정 종료일</label>
 							<div class="col-sm-9 m10">
 								<input type="text" class="form-control" id="ocuendmoddate"
-									name="ocuenddate" placeholder="과정 종료일(YYYY-MM-DD)" value="2017/02/01"
+									name="course_end_day" placeholder="과정 종료일(YYYY-MM-DD)" value=""
 									required="required">
 							</div>
 						</div>
 					
 				</div>
+				<input type="hidden" class="open_course_id" name="open_course_id">
 				<div class="modal-footer">
 					<button type="submit" class="btn btn-default">수정</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
@@ -400,21 +227,219 @@
 				</div>
 				<div class="modal-body">
 					
-					<h4 style="text-align: center;">OCU001 / 웹기반 빅데이터 분석 응용SW개발자</h4>
-					<h5 style="text-align: center;">2016/09/01 ~ 2017/02/01</h5>
+					<h4 style="text-align: center;" class="modaltitle">OCU001 / 웹기반 빅데이터 분석 응용SW개발자</h4>
+					<h5 style="text-align: center;" class="modalbody">2016/09/01 ~ 2017/02/01</h5>
 					<br>
 					<h4 style="text-align: center;">개설 과정을 삭제하시겠습니까?</h4>
 				</div>
+				<form action="admincoursedel" method="POST">
+					<input type="hidden" class="open_course_id" name="open_course_id">
 				<div class="modal-footer">
 					<button type="submit" class="btn btn-default">삭제</button>
 					<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 				</div>
+				</form>
 			</div>
 
 		</div>
 	</div>
 
+<script>
+$(document).ready(function() {
+	var key="";
+	var value="";
+	
+
+	    $('#ocustartdate').datepicker({
+	       	minDate : 0,
+	    	dateFormat: "yy-mm-dd",
+	    	onClose: function(selectedDate){
+	    		$("#ocuenddate").datepicker("option", "minDate", selectedDate)
+	    	}
+	    });
+	    
+	    
+	    $('#ocuenddate').datepicker({
+	    	dateFormat: "yy-mm-dd",
+	    	minDate : 0,
+	    	onClose: function(selectedDate){
+	    		$("#ocustartdate").datepicker("option", "maxDate", selectedDate)	  
+	    	}
+	    });
+	    
+	    
+	    $('#ocustartmoddate').datepicker({
+	       	minDate : 0,
+	    	dateFormat: "yy-mm-dd",
+	    	onClose: function(selectedDate){
+	    		$("#ocuendmoddate").datepicker("option", "minDate", selectedDate)
+	    	}
+	    });
+	    
+	    
+	    $('#ocuendmoddate').datepicker({
+	    	dateFormat: "yy-mm-dd",
+	    	minDate : 0,
+	    	onClose: function(selectedDate){
+	    		$("#ocustartmoddate").datepicker("option", "maxDate", selectedDate)	  
+	    	}
+	    });
+	    
 
 
-</body>
-</html>
+	
+	
+	$(document).on("click",".addbtn",function() {
+		
+		var course="";
+		var class_="";
+		
+		$.ajax({
+			url:"admincourseaddlist",
+			success:function(data){
+				var item = JSON.parse(data);
+				for(var i=0; i<item.length; i++){
+					if(item[i].course_id != null){
+						course += "<option value=\""+item[i].course_id+"\">"+item[i].course_id+" / "+item[i].course_name+"</option>";
+					}
+					
+					if(item[i].class_id != null){
+						class_ += "<option value=\""+item[i].class_id+"\">"+item[i].class_id+" / "+item[i].class_name+" / "+item[i].jungwon+"</option>";
+					}
+				}	
+		
+				
+				$(".courselist").html(course);
+				$(".classlist").html(class_);
+				
+			}});
+		
+				
+		$("#ocu-insert-Modal").modal("show");
+	});
+	
+	$(document).on("click",".modifybtn",function() {
+		
+		var open_course_id = $(this).val();
+		var course_name = $(this).parents("tr").find("td").eq(1).text();
+		var startday = $(this).parents("tr").find("td").eq(5).text();
+		var endday = $(this).parents("tr").find("td").eq(6).text();
+		var course = "";
+		var class_ = "";
+		$(".modaltitle").text(open_course_id+"/"+course_name+" 개설 과정 수정");
+		$(".modalbody").text(startday+"~"+endday);
+		$(".open_course_id").val(open_course_id);
+		
+		$.ajax({
+			url:"admincourseaddlist",
+			success:function(data){
+				var item = JSON.parse(data);
+				for(var i=0; i<item.length; i++){
+					if(item[i].course_id != null){
+						course += "<option value=\""+item[i].course_id+"\">"+item[i].course_id+" / "+item[i].course_name+"</option>";
+					}
+					
+					if(item[i].class_id != null){
+						class_ += "<option value=\""+item[i].class_id+"\">"+item[i].class_id+" / "+item[i].class_name+" / "+item[i].jungwon+"</option>";
+					}
+				}	
+		
+				
+				$(".courselist").html(course);
+				$(".classlist").html(class_);
+				
+			}});
+		
+		
+		$("#ocu-mod-Modal").modal("show");
+	});
+	
+	$(document).on("click",".delbtn",function() {
+		
+		var open_course_id = $(this).val();
+		var course_name = $(this).parents("tr").find("td").eq(1).text();
+		var startday = $(this).parents("tr").find("td").eq(5).text();
+		var endday = $(this).parents("tr").find("td").eq(6).text();
+	
+		$(".modaltitle").text(open_course_id+"/"+course_name+" 개설 과정 삭제");
+		$(".modalbody").text(startday+"~"+endday);
+		$(".open_course_id").val(open_course_id);
+		
+		
+		$("#ocu-del-Modal").modal("show");
+	});
+	
+	$(document).on("click",".searchbtn", function(){
+		key= $("#key").val();
+		value = $("#value").val();
+		var txt="";
+		$.ajax({			
+			url:"admincoursesearch",
+			data:{"key":key, "value":value},
+			success:function(data){
+				var item = JSON.parse(data);					
+				if(item.length != 0){					
+					for(var i=0; i<item.length; i++){
+						var stu;
+						var sub;
+						if(item[i].subcount == 0 ){
+							sub = "disabled";
+						}
+						if(item[i].studentcount == 0 ){
+							stu = "disabled";
+						}
+						
+						txt += "<tr>";
+						txt += "<td>"+item[i].open_course_id+"</td>";
+						txt += "<td>"+item[i].course_name+"</td>";
+						txt += "<td>"+item[i].class_name+"</td>";
+						txt += "<td>"+item[i].jungwon+"</td>";
+						txt += "<td><button type='button' class='btn btn-default btn-sm stubtn' value='"+item[i].open_course_id+"'  "+stu+" <span class='badge' id='Count'>"+item[i].studentcount+"</span> 확인</button></td>";
+						txt += "<td>"+item[i].course_start_day+"</td>";
+						txt += "<td>"+item[i].course_end_day+"</td>";
+						txt += "<td><button type='button' class='btn btn-default btn-sm' value='"+item[i].open_course_id+"'  <span class='badge' id='Count'>"+item[i].subcount+"</span> 확인	</button></td>";
+						txt += "<td><button type=\"button\" class=\"btn btn-default modifybtn\"  "+sub+" "+stu+"  value=\""+item[i].open_course_id+"\">수정</button></td>";
+						txt += "<td><button type=\"button\" class=\"btn btn-default delbtn\" "+sub+" "+stu+"  value=\""+item[i].open_course_id+"\">삭제</button></td>";
+						
+						txt += "</tr>";
+						
+					}
+				}else{
+					txt += "<tr><td colspan=\"10\" style=\"text-align: center;\">검색된 결과가 없습니다.</td></tr>";					
+				}
+			
+				$(".tbody").html(txt); 
+			}});
+		
+	});
+	
+	$(document).on("click", ".stubtn", function(){
+		var open_course_id = $(this).val();
+		var course_name = $(this).parent().prev().prev().prev().text();
+		var course_start_day = $(this).parent().next().text();
+		var course_end_day = $(this).parent().next().next().text();
+		$("#open_course_id").val(open_course_id);
+		$("#course_name").val(course_name);
+		$("#course_start_day").val(course_start_day);
+		$("#course_end_day").val(course_end_day);		
+		$("#stunext").submit();
+	});
+	
+	
+	$(document).on("click", ".subbtn", function(){
+		var open_course_id = $(this).val();
+		var course_name = $(this).parent().prev().prev().prev().prev().prev().prev().text();
+		var course_start_day = $(this).parent().prev().prev().text();
+		var course_end_day = $(this).parent().prev().text();
+		$("#open_course_id2").val(open_course_id);
+		$("#course_name2").val(course_name);
+		$("#course_start_day2").val(course_start_day);
+		$("#course_end_day2").val(course_end_day);		
+		$("#subnext").submit();
+	});
+	
+	
+});
+
+
+</script>

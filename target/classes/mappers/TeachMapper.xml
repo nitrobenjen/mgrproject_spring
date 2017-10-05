@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.management.mapper.TeachMapper">
+
+	<select id="teachInfoModList" parameterType="com.mgr.dto.TeacherVO"
+		resultType="com.mgr.dto.TeacherVO">
+
+		SELECT teacher_id, teacher_name, teacher_ssn, teacher_phone
+		FROM teacher
+		WHERE teacher_id =#{teacher_id}
+	</select>
+
+
+	<select id="teachmodifycheck" parameterType="com.mgr.dto.TeacherVO"
+		resultType="int">
+
+		SELECT count(*) AS count_ FROM login WHERE
+		id_=#{teacher_id} AND pw = #{pw}
+
+	</select>
+
+
+
+	<update id="teachInfoModify" parameterType="com.mgr.dto.TeacherVO">
+
+		UPDATE teacher SET
+		teacher_phone = #{teacher_phone} WHERE teacher_id =
+		#{teacher_id}
+
+	</update>
+
+	<update id="teachPwModify" parameterType="com.mgr.dto.TeacherVO">
+
+		UPDATE login SET pw =
+		#{newpw} WHERE id_=#{teacher_id}
+
+	</update>
+
+
+	<!-- 강의예정 -->
+	<select id="teachCourseList" parameterType="com.mgr.dto.TeacherVO"
+		resultType="com.mgr.dto.TeacherVO">
+
+		SELECT o4.open_sub_id,subject_name,
+		TO_CHAR(sub_start_day,'YYYY-MM-DD') AS sub_start_day,
+		TO_CHAR(sub_end_day, 'YYYY-MM-DD') AS sub_end_day,
+		o1.open_course_id,
+		course_name, TO_CHAR(course_start_day,'YYYY-MM-DD') AS
+		course_start_day, TO_CHAR(course_end_day,'YYYY-MM-DD') AS
+		course_end_day, class_name, DECODE(book_name, null, '교재없음', book_name)
+		AS book_name
+		,book_imgname
+		,(SELECT COUNT(*) FROM course_list WHERE
+		open_course_id = o1.open_course_id)
+		AS student_count, jungwon
+		FROM
+		open_course o1 LEFT OUTER JOIN course o2 ON o1.COURSE_ID =
+		o2.COURSE_ID
+		LEFT OUTER JOIN class_ o3 ON o1.CLASS_ID = o3.CLASS_ID
+		LEFT OUTER JOIN open_sub o4 ON o1.OPEN_COURSE_ID = o4.OPEN_COURSE_ID
+		LEFT OUTER JOIN subject o5 ON o4.subject_id = o5.subject_id
+		LEFT OUTER
+		JOIN teach_sub o6 ON o5.subject_id = o6.subject_id
+		LEFT OUTER JOIN
+		teacher o7 ON o6.teacher_id = o7.teacher_id AND
+		o7.teacher_id =
+		o4.teacher_id
+		LEFT OUTER JOIN book o8 ON o4.BOOK_ID = o8.BOOK_ID WHERE
+		o7.TEACHER_ID =
+		#{teacher_id}
+		AND TO_CHAR(sub_start_day,'YYYY-MM-DD') >
+		TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		<if test="key != null and value != ''">
+			AND INSTR(${key}, #{value})>0
+		</if>
+		ORDER BY o1.open_course_id
+	</select>
+
+	<!-- 해당과정의 수강생 명단 -->
+	<select id="teachStuList" parameterType="com.mgr.dto.TeacherVO"
+		resultType="com.mgr.dto.TeacherVO">
+
+		SELECT o1.student_id, student_name, student_phone,
+		TO_CHAR(student_regdate, 'YYYY-MM-DD') AS student_regdate, finish_day
+		FROM student o1 INNER JOIN course_list o2 ON o1.STUDENT_ID =
+		o2.STUDENT_ID
+		INNER JOIN open_course o4 ON o2.OPEN_COURSE_ID =
+		o4.OPEN_COURSE_ID
+		LEFT OUTER JOIN fail_check o3 ON o2.STUDENT_ID =
+		o3.STUDENT_ID AND
+		o2.OPEN_COURSE_ID = o3.OPEN_COURSE_ID
+		WHERE
+		o4.open_course_id =
+		#{open_course_id}
+		ORDER BY o1.student_id
+	</select>
+
+
+
+
+
+	<!-- 강의중 -->
+	<select id="teachCourseListing" parameterType="com.mgr.dto.TeacherVO"
+		resultType="com.mgr.dto.TeacherVO">
+
+		SELECT o4.open_sub_id,subject_name,
+		TO_CHAR(sub_start_day,'YYYY-MM-DD') AS sub_start_day,
+		TO_CHAR(sub_end_day, 'YYYY-MM-DD') AS sub_end_day,
+		o1.open_course_id,
+		course_name, TO_CHAR(course_start_day,'YYYY-MM-DD') AS
+		course_start_day, TO_CHAR(course_end_day,'YYYY-MM-DD') AS
+		course_end_day, class_name, DECODE(book_name, null, '교재없음', book_name)
+		AS book_name
+		,book_imgname
+		,(SELECT COUNT(*) FROM course_list WHERE
+		open_course_id = o1.open_course_id)
+		AS student_count, jungwon
+		FROM
+		open_course o1 LEFT OUTER JOIN course o2 ON o1.COURSE_ID =
+		o2.COURSE_ID
+		LEFT OUTER JOIN class_ o3 ON o1.CLASS_ID = o3.CLASS_ID
+		LEFT OUTER JOIN open_sub o4 ON o1.OPEN_COURSE_ID = o4.OPEN_COURSE_ID
+		LEFT OUTER JOIN subject o5 ON o4.subject_id = o5.subject_id
+		LEFT OUTER
+		JOIN teach_sub o6 ON o5.subject_id = o6.subject_id
+		LEFT OUTER JOIN
+		teacher o7 ON o6.teacher_id = o7.teacher_id AND
+		o7.teacher_id =
+		o4.teacher_id
+		LEFT OUTER JOIN book o8 ON o4.BOOK_ID = o8.BOOK_ID WHERE
+		o7.TEACHER_ID =
+		#{teacher_id}
+	<![CDATA[	AND TO_CHAR(sub_start_day,'YYYY-MM-DD') <= TO_CHAR(SYSDATE, 'YYYY-MM-DD') AND TO_CHAR(sub_end_day, 'YYYY-MM-DD') >= TO_CHAR(SYSDATE, 'YYYY-MM-DD')]]>
+		<if test="key != null and value != ''">
+			AND INSTR(${key}, #{value})>0
+		</if>
+		ORDER BY o1.open_course_id
+	</select>
+
+
+
+	<!-- 강의종료 -->
+	<select id="teachCourseListend" parameterType="com.mgr.dto.TeacherVO"
+		resultType="com.mgr.dto.TeacherVO">
+
+		SELECT o4.open_sub_id,subject_name,
+		TO_CHAR(sub_start_day,'YYYY-MM-DD') AS sub_start_day,
+		TO_CHAR(sub_end_day, 'YYYY-MM-DD') AS sub_end_day,
+		o1.open_course_id,
+		course_name, TO_CHAR(course_start_day,'YYYY-MM-DD') AS
+		course_start_day, TO_CHAR(course_end_day,'YYYY-MM-DD') AS
+		course_end_day, class_name, DECODE(book_name, null, '교재없음', book_name)
+		AS book_name
+		,book_imgname
+		,(SELECT COUNT(*) FROM course_list WHERE
+		open_course_id = o1.open_course_id)
+		AS student_count, jungwon
+		FROM
+		open_course o1 LEFT OUTER JOIN course o2 ON o1.COURSE_ID =
+		o2.COURSE_ID
+		LEFT OUTER JOIN class_ o3 ON o1.CLASS_ID = o3.CLASS_ID
+		LEFT OUTER JOIN open_sub o4 ON o1.OPEN_COURSE_ID = o4.OPEN_COURSE_ID
+		LEFT OUTER JOIN subject o5 ON o4.subject_id = o5.subject_id
+		LEFT OUTER
+		JOIN teach_sub o6 ON o5.subject_id = o6.subject_id
+		LEFT OUTER JOIN
+		teacher o7 ON o6.teacher_id = o7.teacher_id AND
+		o7.teacher_id =
+		o4.teacher_id
+		LEFT OUTER JOIN book o8 ON o4.BOOK_ID = o8.BOOK_ID WHERE
+		o7.TEACHER_ID =
+		#{teacher_id}
+	<![CDATA[	AND TO_CHAR(sub_end_day,'YYYY-MM-DD') < TO_CHAR(SYSDATE, 'YYYY-MM-DD') ]]>
+		<if test="key != null and value != ''">
+			AND INSTR(${key}, #{value})>0
+		</if>
+		ORDER BY o1.open_course_id
+	</select>
+
+	<!-- 배점관리 -->
+	<select id="teachBaejumList" parameterType="com.mgr.dto.TeacherVO"
+		resultType="com.mgr.dto.TeacherVO">
+
+		SELECT o4.open_sub_id,subject_name,
+		TO_CHAR(sub_start_day,'YYYY-MM-DD') AS sub_start_day,
+		TO_CHAR(sub_end_day, 'YYYY-MM-DD') AS sub_end_day,
+		o1.open_course_id,
+		course_name, TO_CHAR(course_start_day,'YYYY-MM-DD') AS
+		course_start_day, TO_CHAR(course_end_day,'YYYY-MM-DD') AS
+		course_end_day, class_name, DECODE(book_name, null, '교재없음', book_name)
+		AS book_name
+		,book_imgname
+		,chulsuk_total_grade, filki_total_grade,
+		silki_total_grade, TO_CHAR(test_date,
+		'YYYY-MM-DD') AS test_date,
+		test_munje
+		FROM open_course o1 LEFT OUTER JOIN course o2 ON
+		o1.COURSE_ID =
+		o2.COURSE_ID
+		LEFT OUTER JOIN class_ o3 ON o1.CLASS_ID =
+		o3.CLASS_ID
+		LEFT OUTER JOIN open_sub o4 ON o1.OPEN_COURSE_ID =
+		o4.OPEN_COURSE_ID
+		LEFT OUTER JOIN subject o5 ON o4.subject_id =
+		o5.subject_id
+		LEFT OUTER JOIN teach_sub o6 ON o5.subject_id =
+		o6.subject_id
+		LEFT OUTER JOIN teacher o7 ON o6.teacher_id =
+		o7.teacher_id AND
+		o7.teacher_id = o4.teacher_id
+		LEFT OUTER JOIN book o8
+		ON o4.BOOK_ID = o8.BOOK_ID
+		LEFT OUTER JOIN grade o9 ON o4.open_sub_id =
+		o9.open_sub_id
+		LEFT OUTER JOIN baejum o10 ON o4.open_sub_id =
+		o10.open_sub_id
+		WHERE o7.TEACHER_ID = #{teacher_id}
+
+		<if test="key == 'open_sub_id' and value != ''">
+			AND INSTR(o4.${key}, #{value})>0
+		</if>
+		<if test="key == 'subject_name' and value != ''">
+			AND INSTR(${key}, #{value})>0
+		</if>
+		ORDER BY o1.open_course_id
+	</select>
+
+	<!-- 배점입력 -->
+
+	<insert id="teachBaejumadd" parameterType="com.mgr.dto.TeacherVO">
+		INSERT INTO baejum
+		(open_sub_id, chulsuk_total_grade, filki_total_grade,
+		silki_total_grade, test_date, test_munje) VALUES
+		(#{open_sub_id},#{chulsuk_total_grade},#{filki_total_grade},#{silki_total_grade},#{test_date},#{test_munje}
+		)
+
+	</insert>
+
+	<update id="teachbaejummodify" parameterType="com.mgr.dto.TeacherVO">
+		UPDATE baejum SET
+		chulsuk_total_grade=#{chulsuk_total_grade},
+		filki_total_grade=#{filki_total_grade},
+		silki_total_grade=#{silki_total_grade}, test_date=#{test_date},
+		test_munje=#{test_munje} WHERE open_sub_id =#{open_sub_id}
+
+	</update>
+
+
+	<!-- 마지막 -->
+
+
+	<select id="teachStuGradelist" parameterType="com.mgr.dto.TeacherVO"
+		resultType="com.mgr.dto.TeacherVO">
+
+		SELECT o1.student_id, student_name, student_phone,
+		TO_CHAR(student_regdate, 'YYYY-MM-DD') AS student_regdate
+		,TO_CHAR(finish_day, 'YYYY-MM-DD') AS finish_day, chulsuk_grade,
+		filki_grade, silki_grade FROM student o1
+		INNER JOIN course_list o2 ON
+		o1.student_id = o2.student_id
+		INNER JOIN open_course o3 ON
+		o2.open_course_id = o3.open_course_id
+		LEFT OUTER JOIN fail_check o4 ON
+		o1.student_id = o4.student_id AND
+		o3.open_course_id = o4.open_course_id
+		LEFT OUTER JOIN open_sub o5 ON o3.open_course_id = o5.open_course_id
+		LEFT OUTER JOIN grade o6 ON o5.open_sub_id = o6.open_sub_id AND
+		o6.student_id = o1.student_id
+		WHERE o3.open_course_id =
+		#{open_course_id}
+		AND o5.open_sub_id = #{open_sub_id}
+		<if test="key != null and value != ''">
+			AND INSTR(${key}, #{value})>0
+		</if>
+		ORDER BY student_id
+	</select>
+
+
+	<insert id="teachgradeadd" parameterType="com.mgr.dto.TeacherVO">
+		insert into grade
+		(student_id, open_sub_id, filki_grade, silki_grade, chulsuk_grade)
+		values (#{student_id},
+		#{open_sub_id},#{filki_grade},#{silki_grade},#{chulsuk_grade} )
+	</insert>
+
+	<update id="teachgrademodify" parameterType="com.mgr.dto.TeacherVO">
+		UPDATE grade SET
+		filki_grade=#{filki_grade}, silki_grade=#{silki_grade}, chulsuk_grade=#{chulsuk_grade} WHERE open_sub_id =#{open_sub_id}  AND student_id = #{student_id}
+	</update>
+</mapper>
