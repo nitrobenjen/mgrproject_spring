@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.management.mapper.StudentMapper">
+
+	<select id="stuCourseList" parameterType="com.mgr.dto.StudentVO"
+		resultType="com.mgr.dto.StudentVO">
+
+		SELECT student_name, o1.open_course_id,
+		course_name,class_name, TO_CHAR(course_start_day,'YYYY-MM-DD') AS
+		course_start_day, TO_CHAR(course_end_day, 'YYYY-MM-DD') AS
+		course_end_day
+		,(SELECT COUNT(*)
+		FROM open_sub
+		WHERE open_course_id =
+		o1.open_course_id) AS count_
+		FROM open_course o1, course o2, class_ o3,
+		course_list o4, student o5
+		WHERE o1.course_id=o2.course_id
+		AND
+		o1.class_id = o3.class_id
+		AND o1.open_course_id = o4.open_course_id
+		AND
+		o4.student_id = o5.student_id
+		AND o4.student_id = #{student_id}
+
+	</select>
+
+
+	<select id="stuInfo" parameterType="String" resultType="String">
+
+		SELECT
+		student_name FROM student o1, login o2 WHERE o1.student_id = o2.id_
+		AND id_ = #{id_}
+
+	</select>
+
+
+
+	<select id="stuInfoModList" parameterType="com.mgr.dto.StudentVO"
+		resultType="com.mgr.dto.StudentVO">
+
+		SELECT student_id, student_name, student_ssn,
+		student_phone,
+		(SELECT COUNT(*) FROM course_list WHERE student_id = o1.student_id) AS count_
+		FROM student o1
+		WHERE student_id =#{student_id}
+	</select>
+
+
+
+
+	<select id="stuCourseListgrade" parameterType="com.mgr.dto.StudentVO"
+		resultType="com.mgr.dto.StudentVO">
+
+		SELECT o3.open_sub_id, subject_name,TO_CHAR(sub_start_day,
+		'YYYY-MM-DD') AS sub_start_day, TO_CHAR(sub_end_day, 'YYYY-MM-DD') AS
+		sub_end_day ,o1.open_course_id, student_name
+		, o8.BOOK_NAME,
+		book_imgname, o9.TEACHER_NAME, o6.CHULSUK_GRADE,
+		o7.CHULSUK_TOTAL_GRADE, o6.FILKI_GRADE, o7.FILKI_TOTAL_GRADE,
+		o6.SILKI_GRADE, o7.SILKI_TOTAL_GRADE
+		,(o6.CHULSUK_GRADE +
+		o6.FILKI_GRADE + o6.SILKI_GRADE ) AS total ,
+		(o7.CHULSUK_TOTAL_GRADE +
+		o7.FILKI_TOTAL_GRADE +
+		o7.SILKI_TOTAL_GRADE)AS total_grade
+		,TO_CHAR(o7.TEST_DATE, 'YYYY-MM-DD') AS test_date, o7.TEST_MUNJE
+		FROM
+		open_course o1
+		LEFT OUTER JOIN open_sub o3 ON o3.OPEN_COURSE_ID =
+		o1.OPEN_COURSE_ID
+		LEFT OUTER JOIN subject o2 ON o2.SUBJECT_ID =
+		o3.SUBJECT_ID
+		LEFT OUTER JOIN course_list o4 ON o1.OPEN_COURSE_ID =
+		o4.OPEN_COURSE_ID
+		LEFT OUTER JOIN student o5 ON o4.STUDENT_ID =
+		o5.STUDENT_ID
+		LEFT OUTER JOIN grade o6 ON o5.STUDENT_ID = o6.STUDENT_ID
+		AND
+		o6.OPEN_SUB_ID = o3.OPEN_SUB_ID
+		LEFT OUTER JOIN baejum o7 ON
+		o3.OPEN_SUB_ID = o7.OPEN_SUB_ID
+		LEFT OUTER JOIN book o8 ON o3.BOOK_ID =
+		o8.BOOK_ID
+		LEFT OUTER JOIN teacher o9 ON o3.TEACHER_ID = o9.TEACHER_ID
+		WHERE o4.STUDENT_ID = #{student_id}
+		AND o1.open_course_id =
+		#{open_course_id}
+		ORDER BY o3.OPEN_course_ID
+
+	</select>
+	
+	
+	<select id="stumodifycheck" parameterType="com.mgr.dto.StudentVO" resultType="int">
+
+		SELECT count(*) AS count_ FROM login WHERE id_=#{student_id} AND pw = #{pw}
+
+	</select>
+	
+	
+
+	<update id="stuInfoModify" parameterType="com.mgr.dto.StudentVO">
+	
+	UPDATE student SET student_phone = #{student_phone} WHERE student_id = #{student_id}
+	
+	</update>
+	
+	<update id="stuPwModify" parameterType="com.mgr.dto.StudentVO">
+	
+	UPDATE login SET pw = #{newpw} WHERE id_=#{student_id}
+	
+	</update>
+
+
+
+</mapper>

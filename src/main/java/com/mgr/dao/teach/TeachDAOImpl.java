@@ -104,6 +104,12 @@ public class TeachDAOImpl implements TeachDAO {
 		return result;
 		
 	}
+
+	@Override
+	public TeacherVO teachfilename(TeacherVO m) {
+		TeacherVO result = session.selectOne(namespace+".teachfilename",m);
+		return result;
+	}
 	
 	
 	

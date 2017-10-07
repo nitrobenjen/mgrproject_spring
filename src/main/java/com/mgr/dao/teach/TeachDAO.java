@@ -37,4 +37,6 @@ public interface TeachDAO {
 
 	public int teachgrademodify(TeacherVO t);
 
+	public TeacherVO teachfilename(TeacherVO m);
+
 }

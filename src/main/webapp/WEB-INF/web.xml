@@ -47,16 +47,20 @@
 	</servlet-mapping>
 	
 	
-	
-<filter>
+ 	
+ <filter>
     <filter-name>loginCheckFilter1</filter-name>
     <filter-class>com.mgr.util.LoginCheckFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>loginCheckFilter1</filter-name>
-    <url-pattern>/*</url-pattern>
+   <!--  <url-pattern>/*</url-pattern> -->
+   <url-pattern>/admin/*</url-pattern>
+   <url-pattern>/student/*</url-pattern>
+   <url-pattern>/teacher/*</url-pattern>
+   
 </filter-mapping>
-	
+
 	
 	
 		<!-- Sitemesh -->

@@ -73,10 +73,20 @@
 									<td>${a.filki_total_grade==0?"X":a.filki_total_grade} / ${a.filki_grade==0?"X":a.filki_grade}</td>
 									<td>${a.silki_total_grade==0?"X":a.silki_total_grade} / ${a.silki_grade==0?"X":a.silki_grade}</td>
 									<td>${a.chulsuk_total_grade +  a.silki_total_grade + a.filki_total_grade} / ${a.chulsuk_grade+a.filki_grade+a.silki_grade}</td>
+									
 									<td>${empty a.test_date?"시험보지 않음":a.test_date}</td>
-									<td><button type="button" class="btn btn-default" ${empty a.test_munje?"disabled":""} value="${a.test_munje}">다운</button></td>
+									
+									
+									
+									<c:if test="${a.test_munje == null}">
+										<td><button type="button" class="btn btn-default" ${empty a.test_munje?"disabled":""} value="${a.test_munje}">다운</button></td>
+									</c:if>
+									<c:if test="${a.test_munje != null}">
+										<td><a href="${pageContext.request.contextPath}/fileupload/${a.test_munje}" download>다운</a></td>
+									</c:if>
+									
 								</tr>
-					
+					<
 							</c:forEach>
 				</c:if>
 					

@@ -196,12 +196,13 @@ $(document).ready(function() {
 							txt +="<td>"+item[i].test_date+"</td>";
 						}
 						
-						
+						console.log(item[i].test_munje);
 						
 						if(item[i].test_munje == null){
 							txt +="<td>업로드 되지 않음</td>";
 						}else{
-							txt +="<td>"+item[i].test_munje+"</td>";
+							var path = "${pageContext.request.contextPath}/fileupload";
+							txt +="<td><a href="+path+"/"+item[i].test_munje+" download>"+item[i].test_munje+"</a></td>";
 						}
 						
 						txt +="</tr>";			

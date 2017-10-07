@@ -74,7 +74,8 @@ div#login {
 
 
 	<div id="login" class="panel">
-		<img src="${pageContext.request.contextPath}/resources/img/sist_logo.png" width="80%">
+		<img src="${pageContext.request.contextPath}/resources/img/logo.png" width="80%"> 
+		
 
 		<form style="margin-top: 30px;"	action="loginstart" method="POST">
 		

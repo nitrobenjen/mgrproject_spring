@@ -187,12 +187,17 @@ public class TeachServiceImpl implements TeachService {
 		m.setTest_date(mRequest.getParameter("test_date"));
 		Map<String, MultipartFile> files = mRequest.getFileMap();
 		CommonsMultipartFile cmf = (CommonsMultipartFile) files.get("test_munje");
-		
+
 		m.setTest_munje(cmf.getOriginalFilename());	
 		int code = 100;
 		dao.teachBaejumadd(m);
+		
+	
+		
 		// 경로
-		String path = "E:/uploadTest/" + cmf.getOriginalFilename();
+		String savepath = mRequest.getServletContext().getRealPath("fileupload");
+		System.out.println(savepath);
+		String path = savepath+"/"+cmf.getOriginalFilename();
 
 		File file = new File(path);
 		// 파일 업로드 처리 완료.
@@ -220,18 +225,25 @@ public class TeachServiceImpl implements TeachService {
 		Map<String, MultipartFile> files = mRequest.getFileMap();
 		CommonsMultipartFile cmf = (CommonsMultipartFile) files.get("test_munje");
 		
+		TeacherVO original = dao.teachfilename(m);
+		String originalname = original.getTest_munje();
 		m.setTest_munje(cmf.getOriginalFilename());	
 		int code = 100;
 		dao.teachbaejummodify(m);
+		
+		String savepath = mRequest.getServletContext().getRealPath("fileupload");
+		System.out.println(savepath);
+		String path = savepath+"/"+cmf.getOriginalFilename();
+		String delpath = savepath+"/"+originalname;
 		// 경로
-		String path = "E:/uploadTest/" + cmf.getOriginalFilename();
-		String path2 = "E:/uploadTest/1.png";
+		/*String path = "E:/uploadTest/" + cmf.getOriginalFilename();
+		String path2 = "E:/uploadTest/1.png";*/
 		File file = new File(path);
-		//File file2 = new File(path2);
+		File file2 = new File(delpath);
 		// 파일 업로드 처리 완료.
 		try {
 			cmf.transferTo(file);
-			//file2.delete();
+			file2.delete();
 		} catch (IllegalStateException e) {
 			code=200;
 			e.printStackTrace();

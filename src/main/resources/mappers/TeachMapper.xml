@@ -289,4 +289,12 @@
 		UPDATE grade SET
 		filki_grade=#{filki_grade}, silki_grade=#{silki_grade}, chulsuk_grade=#{chulsuk_grade} WHERE open_sub_id =#{open_sub_id}  AND student_id = #{student_id}
 	</update>
+	
+	<select id="teachfilename" parameterType="com.mgr.dto.TeacherVO"
+		resultType="com.mgr.dto.TeacherVO">
+
+		select test_munje from baejum WHERE open_sub_id = #{open_sub_id}
+	</select>
+	
+	
 </mapper>

@@ -233,6 +233,12 @@ $(document).ready(function() {
 	    	dateFormat: "yy-mm-dd",
 	    	
 	    });
+	  
+	  $('#test_date2').datepicker({
+	    	dateFormat: "yy-mm-dd",
+	    	
+	    });
+	
 	
 	
 	$(document).on("click",".addbtn",function() {
