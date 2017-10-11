@@ -1,0 +1,821 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.management.mapper.AdminMapper">
+
+
+
+	<select id="adminBasicCourseList" resultType="com.mgr.dto.AdminBasicVO"
+		parameterType="com.mgr.dto.AdminBasicVO">
+		SELECT course_id, course_name FROM course
+		<if test="key != null and value != ''">
+			WHERE INSTR(${key}, #{value})>0
+		</if>
+		ORDER BY course_id
+	</select>
+
+	<select id="adminBasicCourseCheck" resultType="com.mgr.dto.AdminBasicVO"
+		parameterType="com.mgr.dto.AdminBasicVO">
+		SELECT o1.course_id FROM course o1 INNER JOIN open_course o2 ON
+		o1.course_id = o2.course_id
+		<if test="key != null and value != ''">
+			WHERE INSTR(o1.${key}, #{value})>0
+		</if>
+		GROUP BY o1.course_id
+	</select>
+
+
+	<insert id="adminBasicCourseAdd" parameterType="String">
+		INSERT INTO
+		course (course_id, course_name) VALUES ((SELECT
+		CONCAT('CU',LPAD((NVL(MAX(SUBSTR(course_id,3)), 0)+1), 3, '0') ) FROM
+		course), #{course_name})
+	</insert>
+
+
+
+	<update id="adminBasicCourseModify" parameterType="com.mgr.dto.AdminBasicVO">
+		UPDATE course
+		SET course_name = #{course_name} WHERE course_id=#{course_id}
+	</update>
+
+
+	<delete id="adminBasicCourseDel" parameterType="com.mgr.dto.AdminBasicVO">
+		DELETE FROM
+		course WHERE course_id =#{course_id}
+	</delete>
+
+
+
+	<!-- 과목 시작 -->
+
+	<select id="adminBasicSubListAll" resultType="com.mgr.dto.AdminBasicVO"
+		parameterType="com.mgr.dto.AdminBasicVO">
+		SELECT subject_id, subject_name FROM subject
+		<if test="key != null and value != ''">
+			WHERE INSTR(${key}, #{value})>0
+		</if>
+		ORDER BY subject_id
+	</select>
+
+
+	<select id="adminBasicSubDisable1" resultType="com.mgr.dto.AdminBasicVO"
+		parameterType="com.mgr.dto.AdminBasicVO">
+		SELECT o1.subject_id FROM subject o1, open_sub o2 WHERE o1.subject_id
+		= o2.subject_id
+		<if test="key != null and value != ''">
+			AND INSTR(o1.${key}, #{value})>0
+		</if>
+		GROUP BY o1.subject_id
+	</select>
+
+	<select id="adminBasicSubDisable2" resultType="com.mgr.dto.AdminBasicVO"
+		parameterType="com.mgr.dto.AdminBasicVO">
+		SELECT o1.subject_id FROM subject o1, teach_sub o2 WHERE o1.SUBJECT_ID
+		= o2.SUBJECT_ID
+		<if test="key != null and value != ''">
+			AND INSTR(o1.${key}, #{value})>0
+		</if>
+		GROUP BY o1.subject_id
+	</select>
+
+
+	<insert id="adminBasicSubAdd" parameterType="String">
+		INSERT INTO subject
+		(subject_id, subject_name) VALUES ((SELECT
+		CONCAT('SUB',LPAD((NVL(MAX(SUBSTR(subject_id,4)), 0)+1), 3, '0') )
+		FROM subject), #{subject_name})
+	</insert>
+
+
+
+	<update id="adminBasicSubModify" parameterType="com.mgr.dto.AdminBasicVO">
+		UPDATE subject
+		SET
+		subject_name = #{subject_name} WHERE subject_id=#{subject_id}
+	</update>
+
+
+	<delete id="adminBasicSubDel" parameterType="com.mgr.dto.AdminBasicVO">
+		DELETE FROM subject
+		WHERE subject_id =#{subject_id}
+	</delete>
+
+
+
+	<!-- 교재 시작 -->
+
+	<insert id="adminBasicBookAdd" parameterType="com.mgr.dto.AdminBasicVO">
+		INSERT INTO book
+		(book_id, book_name, publisher, book_imgname) VALUES ((SELECT
+		CONCAT('B',LPAD((NVL(MAX(SUBSTR(book_id,2)), 0)+1), 3, '0') ) FROM
+		book), #{book_name}, #{publisher}, #{book_imgname})
+	</insert>
+
+
+	<select id="adminBasicBookList" resultType="com.mgr.dto.AdminBasicVO"
+		parameterType="com.mgr.dto.AdminBasicVO">
+		SELECT book_id, book_name, publisher, book_imgname FROM book
+		<if test="key != null and value != ''">
+			WHERE INSTR(${key}, #{value})>0
+		</if>
+		ORDER BY book_id
+	</select>
+
+
+
+	<select id="adminBasicBookCheck" resultType="com.mgr.dto.AdminBasicVO"
+		parameterType="com.mgr.dto.AdminBasicVO">
+		SELECT o1.book_id FROM book o1, open_sub o2 WHERE o1.BOOK_ID =
+		o2.BOOK_ID
+		<if test="key != null and value != ''">
+			AND INSTR(o1.${key}, #{value})>0
+		</if>
+		GROUP BY o1.book_id
+	</select>
+
+	<delete id="adminBasicBookDel" parameterType="com.mgr.dto.AdminBasicVO">
+		DELETE FROM book
+		WHERE book_id =#{book_id}
+	</delete>
+
+	<update id="adminBasicBookModify" parameterType="com.mgr.dto.AdminBasicVO">
+		UPDATE book SET
+		book_name=#{book_name}, publisher=#{publisher},
+		book_imgname=#{book_imgname} WHERE book_id=#{book_id}
+	</update>
+
+
+	<!-- 강의실 시작 -->
+	<insert id="adminBasicClassAdd" parameterType="com.mgr.dto.AdminBasicVO">
+		INSERT INTO
+		class_
+		(class_id, class_name, jungwon) VALUES ((SELECT
+		CONCAT('CA',LPAD((NVL(MAX(SUBSTR(class_id,3)), 0)+1), 3, '0') ) FROM
+		class_), #{class_name}, #{jungwon})
+	</insert>
+
+
+	<select id="adminBasicClassList" resultType="com.mgr.dto.AdminBasicVO"
+		parameterType="com.mgr.dto.AdminBasicVO">
+		SELECT class_id, class_name, jungwon FROM class_
+		<if test="key != null and value != ''">
+			WHERE INSTR(${key}, #{value})>0
+		</if>
+		ORDER BY class_id
+	</select>
+
+
+	<select id="adminBasicClassDisable1" resultType="com.mgr.dto.AdminBasicVO"
+		parameterType="com.mgr.dto.AdminBasicVO">
+
+		SELECT o1.class_id FROM class_ o1, open_course o2 WHERE o1.class_id = 
+		<![CDATA[
+	  o2.class_id AND TO_CHAR(o2.COURSE_END_DAY, 'YYYY-MM-DD')	> SYSDATE 
+	  AND TO_CHAR(o2.COURSE_START_DAY, 'YYYY-MM-DD') < SYSDATE   
+		]]>
+		<if test="key != null and value != ''">
+			AND INSTR(o1.${key}, #{value})>0
+		</if>
+		GROUP BY o1.CLASS_ID
+	</select>
+
+	<select id="adminBasicClassDisable2" resultType="com.mgr.dto.AdminBasicVO"
+		parameterType="com.mgr.dto.AdminBasicVO">
+		SELECT o1.class_id FROM class_ o1, open_course o2 WHERE o1.class_id =
+		o2.class_id
+		<if test="key != null and value != ''">
+			AND INSTR(o1.${key}, #{value})>0
+		</if>
+		GROUP BY o1.CLASS_ID
+	</select>
+
+
+	<delete id="adminBasicClassDel" parameterType="com.mgr.dto.AdminBasicVO">
+		DELETE FROM class_
+		WHERE class_id =#{class_id}
+	</delete>
+
+	<update id="adminBasicClassModify" parameterType="com.mgr.dto.AdminBasicVO">
+		UPDATE class_
+		SET class_name=#{class_name}, jungwon=#{jungwon} WHERE
+		class_id=#{class_id}
+	</update>
+
+
+
+
+
+	<!-- 강사 시작 -->
+
+	<select id="adminTeachListAll" resultType="com.mgr.dto.AdminTeachVO"
+		parameterType="com.mgr.dto.AdminTeachVO">
+		SELECT teacher_id,
+		teacher_name, teacher_ssn, teacher_phone,
+		TO_CHAR(teacher_hiredate,
+		'YYYY-MM-DD') AS teacher_hiredate, (SELECT
+		COUNT(*) FROM teach_sub
+		WHERE teacher_id = o1.teacher_id) AS count_
+		FROM teacher o1
+		<if test="key != null and value != ''">
+			WHERE INSTR(${key}, #{value})>0
+		</if>
+		ORDER BY teacher_id
+	</select>
+
+
+	<select id="adminBasicSubList" resultType="com.mgr.dto.AdminTeachVO">
+		SELECT subject_id,
+		subject_name FROM subject ORDER BY subject_id
+	</select>
+
+	<!-- 강사정보 등록을 위한 id 찾기 -->
+	<select id="adminTeachId" resultType="java.lang.String">
+		SELECT
+		CONCAT('TCH',LPAD((NVL(MAX(SUBSTR(teacher_id,4)), 0)+1), 3, '0') ) AS
+		teacher_id FROM teacher
+	</select>
+
+
+
+	<select id="adminTeachSublist" resultType="com.mgr.dto.AdminTeachVO"
+		parameterType="String">
+		SELECT o1.teacher_id, teacher_name, teacher_phone,
+		o2.subject_id, subject_name
+		FROM teacher o1 LEFT OUTER JOIN teach_sub
+		o2 ON o1.TEACHER_ID = o2.TEACHER_ID
+		LEFT OUTER JOIN subject o3 ON
+		o2.SUBJECT_ID = o3.SUBJECT_ID WHERE o1.teacher_id = #{teacher_id}
+		ORDER BY o1.teacher_id
+	</select>
+
+	<select id="adminTeachNocheck" resultType="com.mgr.dto.AdminTeachVO"
+		parameterType="String">
+		SELECT o3.subject_id FROM teacher o1
+		INNER JOIN teach_sub
+		o2 ON o1.teacher_id = o2.teacher_id
+		INNER JOIN subject
+		o3 ON
+		o2.subject_id = o3.subject_id
+		INNER JOIN open_sub o4 ON
+		o1.teacher_id =
+		o4.teacher_id AND o3.SUBJECT_ID = o4.SUBJECT_ID
+		WHERE
+		o1.teacher_id =
+		#{teacher_id}
+		GROUP BY o3.subject_id
+	</select>
+
+	<delete id="adminTeachDelsub" parameterType="String">
+		DELETE FROM
+		teach_sub WHERE teacher_id=#{teacher_id}
+		AND subject_id IN(SELECT
+		o2.subject_id FROM teacher o1
+		LEFT OUTER JOIN
+		teach_sub o2 ON
+		o1.TEACHER_ID = o2.TEACHER_ID
+		LEFT OUTER JOIN subject
+		o3 ON
+		o2.SUBJECT_ID = o3.SUBJECT_ID
+		LEFT OUTER JOIN open_sub o4 ON
+		o1.TEACHER_ID = o4.TEACHER_ID AND o4.SUBJECT_ID = o3.SUBJECT_ID
+		WHERE
+		o1.TEACHER_ID = #{teacher_id} AND o4.subject_id NOT IN
+		(SELECT
+		subject_id FROM open_sub WHERE subject_id = o4.subject_id))
+	</delete>
+
+
+	<insert id="adminTeachsubInsert" parameterType="com.mgr.dto.AdminTeachVO">
+		INSERT INTO
+		teach_sub (teacher_id, subject_id) VALUES (#{teacher_id},
+		#{subject_id})
+	</insert>
+
+	<insert id="adminTeachadd" parameterType="com.mgr.dto.AdminTeachVO">
+		INSERT INTO teacher
+		(teacher_id, teacher_name, teacher_ssn, teacher_phone) VALUES
+		(#{teacher_id}, #{teacher_name}, #{teacher_ssn}, #{teacher_phone})
+	</insert>
+
+
+	<update id="adminTeachModifyinfo" parameterType="com.mgr.dto.AdminTeachVO">
+		UPDATE teacher
+		SET teacher_name=#{teacher_name},
+		teacher_ssn=#{teacher_ssn},
+		teacher_phone=#{teacher_phone} WHERE teacher_id=#{teacher_id}
+	</update>
+
+
+
+
+
+	<!-- 강사 관리 삭제 비활성화 체크, 개설과목과 연결되있는지 확인 -->
+	<select id="adminTeachdisable1" resultType="com.mgr.dto.AdminTeachVO"
+		parameterType="com.mgr.dto.AdminTeachVO">
+		SELECT o1.teacher_id
+		AS
+		teacher_id FROM teacher o1 INNER JOIN open_sub
+		o2 ON o1.TEACHER_ID =
+		o2.TEACHER_ID
+
+		<if test="key != null and value != ''">
+			WHERE INSTR(o1.${key}, #{value})>0
+		</if>
+		GROUP BY o1.teacher_id
+		ORDER BY o1.teacher_id
+	</select>
+
+
+	<!-- 강사 관리 삭제 비활성화 체크, 강의가능과 연결되있는지 확인 -->
+	<select id="adminTeachdisable2" resultType="com.mgr.dto.AdminTeachVO"
+		parameterType="com.mgr.dto.AdminTeachVO">
+		SELECT o1.teacher_id
+		AS
+		teacher_id FROM teacher o1 INNER JOIN teach_sub
+		o2 ON o1.TEACHER_ID = o2.TEACHER_ID
+		<if test="key != null and value != ''">
+			WHERE INSTR(o1.${key}, #{value})>0
+		</if>
+
+		GROUP BY o1.teacher_id ORDER BY o1.teacher_id
+	</select>
+
+
+
+	<delete id="adminTeachDel" parameterType="String">
+		DELETE FROM teacher
+		WHERE teacher_id =#{teacher_id}
+	</delete>
+
+
+
+	<!-- 개설 과정 시작 -->
+
+	<select id="adminCourseList" resultType="com.mgr.dto.AdminCourseVO"
+		parameterType="com.mgr.dto.AdminCourseVO">
+		SELECT o1.open_course_id , course_name, class_name,
+		jungwon
+		,(SELECT
+		COUNT(*) FROM course_list WHERE open_course_id = o1.OPEN_COURSE_ID)
+		AS
+		studentcount
+		,TO_CHAR(course_start_day,'YYYY-MM-DD') AS
+		course_start_day, TO_CHAR(course_end_day,'YYYY-MM-DD') AS
+		course_end_day
+		,(SELECT COUNT(*) FROM open_sub WHERE open_course_id =
+		o1.OPEN_COURSE_ID) AS
+		subcount
+		FROM open_course o1, course o2, class_ o3
+		WHERE o1.COURSE_ID =
+		o2.COURSE_ID AND o1.CLASS_ID = o3.CLASS_ID
+		<if test="key != null and value != ''">
+			AND INSTR(${key}, #{value})>0
+		</if>
+		ORDER BY o1.open_course_id
+	</select>
+
+	<insert id="adminCourseAdd" parameterType="com.mgr.dto.AdminCourseVO">
+		INSERT INTO
+		open_course (open_course_id, course_id, class_id, course_start_day,
+		course_end_day) VALUES ((SELECT
+		CONCAT('OCU',LPAD((NVL(MAX(SUBSTR(open_course_id,4)), 0)+1), 3, '0') )
+		FROM open_course), #{course_id}, #{class_id}, #{course_start_day},
+		#{course_end_day})
+	</insert>
+
+
+
+	<delete id="adminCourseDel" parameterType="com.mgr.dto.AdminCourseVO">
+		DELETE FROM
+		open_course WHERE open_course_id =#{open_course_id}
+	</delete>
+
+	<!-- 개설과정 수정 -->
+
+
+	<update id="adminCourseModify" parameterType="com.mgr.dto.AdminCourseVO">
+		UPDATE open_course
+		SET course_id=#{course_id}, class_id=#{class_id},
+		course_start_day=#{course_start_day},
+		course_end_day=#{course_end_day}
+		WHERE open_course_id = #{open_course_id}
+	</update>
+
+	<!-- 개설과정 > 수강생명단 -->
+
+	<select id="adminCourseStu" resultType="com.mgr.dto.AdminCourseVO"
+		parameterType="com.mgr.dto.AdminCourseVO">
+		SELECT o1.student_id,
+		student_name, student_ssn, student_phone,
+		To_CHAR(student_regdate,'YYYY-MM-DD') AS student_regdate,
+		TO_CHAR(finish_day, 'YYYY-MM-DD')AS finish_day
+		FROM student o1
+		INNER
+		JOIN course_list o2 ON o1.STUDENT_ID = o2.STUDENT_ID
+		INNER JOIN
+		open_course o3 ON o2.OPEN_COURSE_ID = o3.OPEN_COURSE_ID
+		INNER JOIN
+		course o5 ON o3.COURSE_ID = o5.COURSE_ID
+		LEFT OUTER JOIN fail_check o4
+		ON o2.OPEN_COURSE_ID = o4.OPEN_COURSE_ID AND
+		o2.STUDENT_ID =
+		o4.STUDENT_ID
+		WHERE o3.OPEN_COURSE_ID = #{open_course_id}
+		<if test="key != null and value != ''">
+			AND INSTR(${key}, #{value})>0
+		</if>
+
+		ORDER BY o1.STUDENT_ID
+	</select>
+
+
+	<select id="adminCourseStuTotal" resultType="int"
+		parameterType="com.mgr.dto.AdminCourseVO">
+		SELECT COUNT(*)
+		FROM student o1
+		INNER JOIN course_list o2 ON
+		o1.STUDENT_ID = o2.STUDENT_ID
+		INNER JOIN open_course o3 ON
+		o2.OPEN_COURSE_ID = o3.OPEN_COURSE_ID
+		INNER JOIN course o5 ON
+		o3.COURSE_ID = o5.COURSE_ID
+		LEFT OUTER JOIN fail_check o4 ON
+		o2.OPEN_COURSE_ID = o4.OPEN_COURSE_ID AND
+		o2.STUDENT_ID = o4.STUDENT_ID
+		WHERE o3.OPEN_COURSE_ID = #{open_course_id}
+		<if test="key != null and value != ''">
+			AND INSTR(${key}, #{value})>0
+		</if>
+	</select>
+
+
+
+	<!-- 개설과목시작 -->
+
+	<select id="adminOpenSub" resultType="com.mgr.dto.AdminCourseVO"
+		parameterType="com.mgr.dto.AdminCourseVO">
+		SELECT o6.open_course_id, course_name, o1.open_sub_id, subject_name,
+		o1.subject_id,
+		TO_CHAR(course_end_day, 'YYYY-MM-DD') AS course_end_day,
+		TO_CHAR(sub_start_day, 'YYYY-MM-DD')
+		AS sub_start_day,
+		TO_CHAR(sub_end_day, 'YYYY-MM-DD') AS sub_end_day,
+		book_name,
+		teacher_name
+		FROM open_sub o1
+		LEFT OUTER JOIN subject o2 ON
+		o1.SUBJECT_ID = o2.SUBJECT_ID
+		LEFT OUTER JOIN teacher o3 ON
+		o1.TEACHER_ID = o3.TEACHER_ID
+		LEFT OUTER JOIN book o4 ON o1.BOOK_ID =
+		o4.BOOK_ID
+		LEFT OUTER JOIN teach_sub o5 ON o3.TEACHER_ID =
+		o5.TEACHER_ID AND
+		o2.SUBJECT_ID = o5.SUBJECT_ID
+		LEFT OUTER JOIN
+		open_course o6 ON o1.OPEN_COURSE_ID = o6.OPEN_COURSE_ID
+		LEFT OUTER JOIN
+		course o7 ON o6.COURSE_ID = o7.COURSE_ID
+		WHERE o1.OPEN_COURSE_ID =
+		#{open_course_id}
+		<if test="key != null and value != ''">
+			AND INSTR(${key}, #{value})>0
+		</if>
+
+		ORDER BY o6.open_course_id
+	</select>
+
+	<!-- 개설과목등록을 위한 강사목록 출력 -->
+	<select id="adminSubAddListTeach" resultType="com.mgr.dto.AdminTeachVO"
+		parameterType="com.mgr.dto.AdminTeachVO">
+		SELECT o1.teacher_id, teacher_name, teacher_ssn,
+		teacher_phone, o2.subject_id, subject_name FROM teacher o1, teach_sub
+		o2, subject o3 WHERE o1.TEACHER_ID = o2.TEACHER_ID AND o2.SUBJECT_ID =
+		o3.SUBJECT_ID AND o2.subject_id = #{subject_id}
+		ORDER BY teacher_id
+	</select>
+
+
+
+	<insert id="adminOpenSubadd" parameterType="com.mgr.dto.AdminCourseVO">
+		INSERT INTO open_sub
+		(open_sub_id, teacher_id, subject_id, book_id, open_course_id,
+		sub_start_day, sub_end_day) VALUES ((SELECT
+		CONCAT('OUB',LPAD((NVL(MAX(SUBSTR(open_sub_id,4)), 0)+1), 3, '0') )
+		FROM open_sub), #{teacher_id}, #{subject_id}, #{book_id},
+		#{open_course_id}, #{sub_start_day}, #{sub_end_day})
+
+	</insert>
+
+
+	<!-- 개설과목 삭제 비활성화 리턴목록 이외에 전부 비활성화 -->
+
+	<select id="adminSubDelCheck" resultType="com.mgr.dto.AdminCourseVO"
+		parameterType="com.mgr.dto.AdminCourseVO">
+		SELECT o6.open_course_id, course_name, o1.open_sub_id, subject_name
+		,
+		TO_CHAR(course_start_day, 'YYYY-MM-DD') AS course_start_day,
+		TO_CHAR(course_end_day, 'YYYY-MM-DD') AS course_end_day
+		,
+		TO_CHAR(sub_start_day, 'YYYY-MM-DD') AS sub_start_day,
+		TO_CHAR(sub_end_day, 'YYYY-MM-DD') AS sub_end_day, book_name,
+		teacher_name
+		FROM open_sub o1
+		LEFT OUTER JOIN subject o2 ON
+		o1.SUBJECT_ID = o2.SUBJECT_ID
+		LEFT OUTER JOIN teacher o3 ON
+		o1.TEACHER_ID = o3.TEACHER_ID
+		LEFT OUTER JOIN book o4 ON o1.BOOK_ID =
+		o4.BOOK_ID
+		LEFT OUTER JOIN teach_sub o5 ON o3.TEACHER_ID =
+		o5.TEACHER_ID AND
+		o2.SUBJECT_ID = o5.SUBJECT_ID
+		LEFT OUTER JOIN
+		open_course o6 ON o1.OPEN_COURSE_ID = o6.OPEN_COURSE_ID
+		LEFT OUTER JOIN
+		course o7 ON o6.COURSE_ID = o7.COURSE_ID
+		WHERE o1.OPEN_COURSE_ID =
+		#{open_course_id}
+		<![CDATA[AND TO_CHAR(SYSDATE, 'YYYY-MM-DD') <TO_CHAR(sub_start_day, 'YYYY-MM-DD') ]]>
+		<if test="key != null and value != ''">
+			AND INSTR(${key}, #{value})>0
+		</if>
+		ORDER BY o6.open_course_id
+	</select>
+
+	<!-- 개설과목 삭제 -->
+	<delete id="adminSubDel" parameterType="com.mgr.dto.AdminCourseVO">
+		DELETE FROM open_sub
+		WHERE open_sub_id = #{open_sub_id}
+	</delete>
+
+	<!-- 개설과목 수정 -->
+
+
+	<update id="adminOpenSubModify" parameterType="com.mgr.dto.AdminCourseVO">
+		UPDATE open_sub
+		SET subject_id=#{subject_id}, book_id=#{book_id},
+		teacher_id=#{teacher_id} WHERE open_sub_id =#{open_sub_id}
+	</update>
+
+
+
+	<!-- 수강생 시작 -->
+
+	<insert id="adminStuInfoAdd" parameterType="com.mgr.dto.AdminCourseVO">
+		INSERT INTO student
+		(student_id, student_name, student_ssn, student_phone,
+		student_regdate)
+		VALUES (#{student_id}, #{student_name}, #{student_ssn},
+		#{student_phone}, SYSDATE )
+
+	</insert>
+
+	<select id="adminStuList" resultType="com.mgr.dto.AdminCourseVO"
+		parameterType="com.mgr.dto.AdminCourseVO">
+		SELECT student_id, student_name, student_ssn, student_phone,
+		TO_CHAR(student_regdate, 'YYYY-MM-DD') AS student_regdate,
+		(SELECT
+		COUNT(*) FROM course_list WHERE student_id = o1.student_id) AS count_
+		FROM student o1
+		<if test="key != null and value != ''">
+			WHERE INSTR(${key}, #{value})>0
+		</if>
+		ORDER BY student_id
+	</select>
+
+
+	<select id="adminStuDisable" resultType="com.mgr.dto.AdminCourseVO"
+		parameterType="com.mgr.dto.AdminCourseVO">
+		SELECT o1.student_id FROM student o1, course_list o2 WHERE
+		o1.student_id = o2.student_id
+		<if test="key != null and value != ''">
+			AND INSTR(${key}, #{value})>0
+		</if>
+		GROUP BY o1.student_id
+		ORDER BY student_id
+	</select>
+
+	<delete id="adminStuDel" parameterType="com.mgr.dto.AdminCourseVO">
+		DELETE FROM student WHERE
+		student_id = #{student_id}
+	</delete>
+
+	<!-- 수강생 수정 -->
+
+	<update id="adminStuModify" parameterType="com.mgr.dto.AdminCourseVO">
+		UPDATE student SET
+		student_name=#{student_name},
+		student_ssn=#{student_ssn},
+		student_phone=#{student_phone} WHERE
+		student_id = #{student_id}
+	</update>
+
+	<select id="adminStuCourseAddListCheck" resultType="com.mgr.dto.AdminCourseVO"
+		parameterType="com.mgr.dto.AdminCourseVO">
+		SELECT open_course_id FROM course_list WHERE
+		student_id=#{student_id}
+	</select>
+
+	<select id="adminStuCourseAddListCheck2" resultType="com.mgr.dto.AdminCourseVO"
+		parameterType="com.mgr.dto.AdminCourseVO">
+		<![CDATA[SELECT open_course_id FROM open_course WHERE TO_CHAR(course_start_day, 'YYYY-MM-DD') <=SYSDATE]]>
+	</select>
+
+	<!-- 수강생 개설과정 등록 -->
+
+
+	<insert id="adminStuCourseAdd" parameterType="com.mgr.dto.AdminCourseVO">
+		INSERT INTO
+		course_list (open_course_id, student_id) VALUES
+		(#{open_course_id},#{student_id})
+
+	</insert>
+
+
+
+	<select id="adminStuListCourse" resultType="com.mgr.dto.AdminCourseVO"
+		parameterType="com.mgr.dto.AdminCourseVO">
+		SELECT o1.open_course_id, course_name, class_name, jungwon,
+		TO_CHAR(course_start_day,'YYYY-MM-DD') AS course_start_day,
+		TO_CHAR(course_end_day, 'YYYY-MM-DD') AS course_end_day
+		FROM
+		open_course o1, course o2, class_ o3, course_list o4, student o5
+		WHERE
+		o1.course_id=o2.course_id
+		AND o1.class_id = o3.class_id
+		AND
+		o1.open_course_id = o4.open_course_id
+		AND o4.student_id = o5.student_id
+		AND o4.student_id = #{student_id}
+		<if test="key != null and value != ''">
+			AND INSTR(${key}, #{value})>0
+		</if>
+		ORDER BY o1.open_course_id
+	</select>
+
+
+	<select id="adminStuListCourseCheck" resultType="com.mgr.dto.AdminCourseVO"
+		parameterType="com.mgr.dto.AdminCourseVO">
+		SELECT student_id, open_course_id, TO_CHAR(finish_day,
+		'YYYY-MM-DD') AS
+		finish_day FROM fail_check WHERE
+		student_id=#{student_id}
+	</select>
+
+	<!-- 중도탈락 -->
+	<insert id="adminStuFailAdd" parameterType="com.mgr.dto.AdminCourseVO">
+		INSERT INTO
+		fail_check (student_id, open_course_id, finish_day) VALUES
+		(#{student_id},#{open_course_id},#{finish_day})
+
+	</insert>
+
+
+	<!-- 개설과목별 점수 -->
+
+	<select id="adminGradeSub" resultType="com.mgr.dto.AdminCourseVO"
+		parameterType="com.mgr.dto.AdminCourseVO">
+		SELECT o6.open_course_id, course_name, o1.open_sub_id, subject_name,
+		TO_CHAR(sub_start_day, 'YYYY-MM-DD') AS sub_start_day,
+		TO_CHAR(sub_end_day, 'YYYY-MM-DD') AS sub_end_day,
+		book_name,
+		teacher_name,
+		(SELECT COUNT(*) FROM grade WHERE open_sub_id =
+		o1.open_sub_id) AS count_
+		FROM open_sub o1
+		LEFT OUTER JOIN subject o2 ON
+		o1.SUBJECT_ID =
+		o2.SUBJECT_ID
+		LEFT OUTER JOIN teacher o3 ON
+		o1.TEACHER_ID =
+		o3.TEACHER_ID
+		LEFT OUTER JOIN book o4 ON o1.BOOK_ID =
+		o4.BOOK_ID
+		LEFT
+		OUTER JOIN teach_sub o5 ON o3.TEACHER_ID =
+		o5.TEACHER_ID
+		AND
+		o2.SUBJECT_ID = o5.SUBJECT_ID
+		LEFT OUTER JOIN
+		open_course o6 ON
+		o1.OPEN_COURSE_ID = o6.OPEN_COURSE_ID
+		LEFT OUTER JOIN
+		course o7 ON
+		o6.COURSE_ID = o7.COURSE_ID
+		WHERE o1.OPEN_COURSE_ID = #{open_course_id}
+		<if test="key != null and value != ''">
+			AND INSTR(${key}, #{value})>0
+		</if>
+
+		ORDER BY o6.open_course_id
+	</select>
+
+
+
+	<select id="adminsubgradeview" resultType="com.mgr.dto.AdminCourseVO"
+		parameterType="com.mgr.dto.AdminCourseVO">
+		SELECT chulsuk_total_grade, filki_total_grade,
+		silki_total_grade, TO_CHAR(test_date, 'YYYY-MM-DD') AS test_date,
+		o1.student_id, student_name,
+		chulsuk_grade, filki_grade, silki_grade
+		FROM student o1
+		LEFT OUTER JOIN grade o2 ON o1.STUDENT_ID =
+		o2.STUDENT_ID
+		LEFT OUTER JOIN open_sub o3 ON o2.open_sub_id =
+		o3.open_sub_id
+		LEFT OUTER JOIN baejum o4 ON o4.OPEN_SUB_ID =
+		o3.OPEN_SUB_ID
+		WHERE o3.open_sub_id = #{open_sub_id}
+
+		ORDER BY student_id
+	</select>
+
+	<select id="adminstulistcoursegrade" resultType="com.mgr.dto.AdminCourseVO"
+		parameterType="com.mgr.dto.AdminCourseVO">
+		SELECT o1.open_course_id, course_name, class_name,jungwon,
+		(SELECT
+		COUNT(*) FROM course_list WHERE open_course_id = o1.open_course_id)
+		AS
+		studentcount
+		,TO_CHAR(course_start_day,'YYYY-MM-DD') AS
+		course_start_day, TO_CHAR(course_end_day, 'YYYY-MM-DD') AS
+		course_end_day
+		,(SELECT COUNT(*) FROM open_sub WHERE open_course_id =
+		o1.open_course_id) AS
+		count_
+		FROM open_course o1, course o2, class_ o3,
+		course_list o4, student o5
+		WHERE o1.course_id=o2.course_id
+		AND
+		o1.class_id = o3.class_id
+		AND o1.open_course_id = o4.open_course_id
+		AND
+		o4.student_id = o5.student_id
+		AND o4.student_id = #{student_id}
+		<if test="key != null and value != ''">
+			AND INSTR(${key}, #{value})>0
+		</if>
+
+		ORDER BY o1.open_course_id
+	</select>
+
+
+
+	<select id="adminStuGrade" resultType="com.mgr.dto.AdminCourseVO"
+		parameterType="com.mgr.dto.AdminCourseVO">
+		SELECT o3.open_sub_id, subject_name,
+		TO_CHAR(sub_start_day, 'YYYY-MM-DD') AS sub_start_day,
+		TO_CHAR(sub_end_day, 'YYYY-MM-DD') AS sub_end_day ,o1.open_course_id,
+		student_name
+		, o8.BOOK_NAME, book_imgname, o9.TEACHER_NAME, o6.CHULSUK_GRADE,
+		o7.CHULSUK_TOTAL_GRADE, o6.FILKI_GRADE, o7.FILKI_TOTAL_GRADE,
+		o6.SILKI_GRADE, o7.SILKI_TOTAL_GRADE
+		,(o6.CHULSUK_GRADE + o6.FILKI_GRADE + o6.SILKI_GRADE ) AS total ,
+		(o7.CHULSUK_TOTAL_GRADE + o7.FILKI_TOTAL_GRADE +
+		o7.SILKI_TOTAL_GRADE)AS total_grade
+		,TO_CHAR(o7.TEST_DATE, 'YYYY-MM-DD') AS test_date, o7.TEST_MUNJE
+		FROM open_course o1
+		LEFT OUTER JOIN open_sub o3 ON o3.OPEN_COURSE_ID = o1.OPEN_COURSE_ID
+		LEFT OUTER JOIN subject o2 ON o2.SUBJECT_ID = o3.SUBJECT_ID
+		LEFT OUTER JOIN course_list o4 ON o1.OPEN_COURSE_ID = o4.OPEN_COURSE_ID
+		LEFT OUTER JOIN student o5 ON o4.STUDENT_ID = o5.STUDENT_ID
+		LEFT OUTER JOIN grade o6 ON o5.STUDENT_ID = o6.STUDENT_ID AND
+		o6.OPEN_SUB_ID = o3.OPEN_SUB_ID
+		LEFT OUTER JOIN baejum o7 ON o3.OPEN_SUB_ID = o7.OPEN_SUB_ID
+		LEFT OUTER JOIN book o8 ON o3.BOOK_ID = o8.BOOK_ID
+		LEFT OUTER JOIN teacher o9 ON o3.TEACHER_ID = o9.TEACHER_ID
+		WHERE o4.STUDENT_ID = #{student_id}
+		AND o1.open_course_id = #{open_course_id}
+		ORDER BY o3.OPEN_course_ID
+	</select>
+	
+	
+
+
+	<insert id="adminTeachLoginAdd" parameterType="com.mgr.dto.AdminTeachVO">
+		INSERT INTO
+		login (id_, pw, grade) VALUES
+		(#{teacher_id},#{teacher_ssn}, 1)
+
+	</insert>
+	
+	
+		<insert id="adminStuLoginAdd" parameterType="com.mgr.dto.AdminCourseVO">
+		INSERT INTO
+		login (id_, pw, grade) VALUES
+		(#{student_id},#{student_ssn}, 2)
+
+	</insert>
+	
+	
+	<!-- 강사정보 등록을 위한 id 찾기 -->
+	<select id="adminStuId" resultType="java.lang.String">
+		SELECT
+		CONCAT('STU',LPAD((NVL(MAX(SUBSTR(student_id,4)), 0)+1), 3, '0') ) AS
+		student_id FROM student
+	</select>
+
+</mapper>
